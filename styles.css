@@ -2716,16 +2716,15 @@ html[dir="rtl"] .footer-contact li > a { flex-direction: row !important; }
   justify-content: flex-start;
 }
 
-/* Frosted Card */
 .index-hero-section .hero-card {
-  background: rgba(245, 239, 230, 0.78);
-  backdrop-filter: blur(14px);
+  background: transparent;
+  backdrop-filter: none;
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(230, 215, 195, 0.55);
+  border: none;
   border-radius: 16px;
   padding: 40px 44px;
   max-width: 520px;
-  box-shadow: 0 16px 48px rgba(100, 60, 20, 0.16);
+  box-shadow: none;
   text-align: right;
 }
 
@@ -12107,6 +12106,13 @@ div[id*="mic-access-tool-box"] button[class*="reset"] * {
 #mic-init-access-tool #mic-access-tool-general-button,
 ._access-icon {
   display: flex !important;
+}
+
+.index-hero-section .hero-card {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
