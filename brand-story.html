@@ -350,7 +350,7 @@
       <div class="search-results" id="mobile-search-results"></div>
     </div>
   
-<script>window.ZAPPY_WEBSITE_ID = "bb700e86-ae83-441f-bf29-c14068b56bc5";window.ZAPPY_API_BASE = "https://api.zappy5.com";</script>
+<script>window.ZAPPY_WEBSITE_ID = "bb700e86-ae83-441f-bf29-c14068b56bc5";window.ZAPPY_API_BASE = (window.location.pathname.includes('/preview') ? "https://api.zappy5.com" : "https://api.zappy5.com");</script>
   <nav class="navbar" dir="rtl">
   <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
     <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -1011,7 +1011,7 @@
 
 </section>
 
-<section class="brand-story-quote-section" data-layout-spec="הסיפור שלנו-quote" dir="rtl">
+<section class="brand-story-quote-section" data-layout-spec="הסיפור שלנו-quote" dir="rtl" id="brand-story-quote-section">
   <!-- Subtle linen texture overlay -->
   <div class="brand-story-quote-section__texture" aria-hidden="true"></div>
 
@@ -1037,7 +1037,7 @@
 
     <!-- The quote itself -->
     <blockquote class="brand-story-quote-section__blockquote">
-      <p class="brand-story-quote-section__quote-text">בשפת הגלים, כשהחול נוגע בעור ואור השמש עוטף אותך — זה הרגע שבו את פשוט את עצמך. בגדי ים שנולדו כדי שתרגישי יפה, חופשית, ומלאה.</p>
+      <p class="brand-story-quote-section__quote-text" style="">בשפת הגלים, כשהחול נוגע בעור ואור השמש עוטף אותך — זה הרגע שבו את פשוט את עצמך. בגדי ים שנולדו כדי שתרגישי יפה, חופשית, ומלאה!</p>
     </blockquote>
 
     <!-- Wavy underline divider motif -->
