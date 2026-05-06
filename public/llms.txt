@@ -1,0 +1,103 @@
+# Heatwave — Generative Engine Optimization Map
+
+> An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a direct-to-consumer online retail model.
+
+---
+
+## Pages
+
+### בית
+https://heatwave-bb700e86.zappy5.app
+An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a d
+
+### מידות וחומרים
+https://heatwave-bb700e86.zappy5.app/fit-fabric
+מידות וחומרים | Heatwave. בגדי ים
+
+### הסיפור שלנו
+https://heatwave-bb700e86.zappy5.app/brand-story
+הסיפור שלנו | Heatwave. בגדי ים
+
+### צור קשר
+https://heatwave-bb700e86.zappy5.app/contact
+צור קשר | Heatwave. בגדי ים
+
+### Products
+https://heatwave-bb700e86.zappy5.app/products
+המוצרים שלנו - Heatwave
+
+### Cart
+https://heatwave-bb700e86.zappy5.app/cart
+עגלת הקניות שלך
+
+### Checkout
+https://heatwave-bb700e86.zappy5.app/checkout
+תשלום
+
+### Login
+https://heatwave-bb700e86.zappy5.app/login
+התחברות לקוחות
+
+### Account
+https://heatwave-bb700e86.zappy5.app/account
+החשבון שלי
+
+### Order Success
+https://heatwave-bb700e86.zappy5.app/order-success
+תודה על ההזמנה
+
+### Product Detail
+https://heatwave-bb700e86.zappy5.app/product/:slug
+פרטי המוצר - Heatwave
+
+### Category
+https://heatwave-bb700e86.zappy5.app/category/:slug
+מוצרים - Heatwave
+
+## Legal & Policy
+
+### Privacy Policy
+https://heatwave-bb700e86.zappy5.app/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://heatwave-bb700e86.zappy5.app/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://heatwave-bb700e86.zappy5.app/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+## Products
+
+_No products are currently configured._
+
+---
+
+# Business Context (for LLM understanding)
+
+## About Heatwave
+An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a direct-to-consumer online retail model.
+
+## Services/Products
+- מכירת בגדי ים
+
+## Target Audience
+- חובבי חוף וים
+- משפיעני אופנה ברשתות חברתיות
+- נשים צעירות
+
+## Industry
+אופנה וביגוד
+
+---
+
+# Machine-readable feeds
+
+- Sitemap (XML): https://heatwave-bb700e86.zappy5.app/sitemap.xml
+- Robots: https://heatwave-bb700e86.zappy5.app/robots.txt
+- Flattened page text (for LLMs): https://heatwave-bb700e86.zappy5.app/llms-full.txt
+- Products (JSON): https://heatwave-bb700e86.zappy5.app/products.json
+- Products (Google Merchant RSS): https://heatwave-bb700e86.zappy5.app/product-feed.xml

@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>מידות וחומרים — Heatwave</title>
+    <meta name="description" content="מידות וחומרים | Heatwave. בגדי ים">
+    <meta name="keywords" content="מידות וחומרים, בגדי ים, בגד ים שלם, בגד ים ברזילאי">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'bb700e86-ae83-441f-bf29-c14068b56bc5',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+    <meta property="og:title" content="מידות וחומרים — Heatwave">
+    <meta property="og:description" content="מידות וחומרים | Heatwave. בגדי ים">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="מידות וחומרים — Heatwave">
+    <meta name="twitter:description" content="מידות וחומרים | Heatwave. בגדי ים">
+    <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css">
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: var(--text-dark, #333) !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+      [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 10px !important; padding-right: 28px !important; }
+      .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus (exclude catalog sub-menus that use <a> children instead of <li>) */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))):not(:has(> a)), .sub-menu:not(:has(li)):not(:has(> a)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .navbar .sub-menu.mobile-expanded, .nav-menu .sub-menu.mobile-expanded, #navMenu .sub-menu.mobile-expanded { max-height: none !important; overflow-y: visible !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; position: relative !important; min-height: 44px !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; min-width: 0 !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; white-space: normal !important; }
+        .sub-menu .zappy-nav-child > a { padding-left: 28px !important; font-size: 0.9em !important; opacity: 0.85 !important; }
+        [dir="rtl"] .sub-menu .zappy-nav-child > a, html[lang="he"] .sub-menu .zappy-nav-child > a, html[lang="ar"] .sub-menu .zappy-nav-child > a { padding-left: 0 !important; padding-right: 28px !important; }
+        .sub-menu .zappy-nav-parent > a { font-weight: 600 !important; }
+        .nav-menu.active, #navMenu.active { max-width: 100vw !important; overflow-x: hidden !important; box-sizing: border-box !important; }
+        .navbar .sub-menu li a, nav.navbar .sub-menu li a, .zappy-products-dropdown .sub-menu a { color: var(--text-dark) !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+
+    <style id="zappy-widget-visibility">
+      html[dir="rtl"] .whatsapp-float { right: 20px !important; left: auto !important; }
+      html[dir="ltr"] .whatsapp-float, html:not([dir]) .whatsapp-float { left: 20px !important; right: auto !important; }
+      html[dir="rtl"] #mic-access-tool-general-button, html[dir="rtl"] .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="rtl"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="rtl"] ._access-icon { left: 20px !important; right: auto !important; }
+      html[dir="ltr"] #mic-access-tool-general-button, html[dir="ltr"] .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool .mic-access-tool-general-button,
+      html[dir="ltr"] #mic-init-access-tool #mic-access-tool-general-button,
+      html[dir="ltr"] ._access-icon,
+      html:not([dir]) #mic-access-tool-general-button, html:not([dir]) .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool .mic-access-tool-general-button,
+      html:not([dir]) #mic-init-access-tool #mic-access-tool-general-button,
+      html:not([dir]) ._access-icon { right: 20px !important; left: auto !important; }
+      @media (max-width: 768px) { .whatsapp-float { display: flex !important; } }
+      @media (min-width: 769px) { .whatsapp-float { display: flex !important; } }
+      @media (max-width: 768px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box, .mic-access-tool-box, #mic-init-access-tool #mic-access-tool-box,
+        div[id*="mic-access-tool-box"], ._access-menu {
+          visibility: hidden; opacity: 0; pointer-events: auto !important;
+        }
+      }
+      @media (min-width: 769px) {
+        #mic-access-tool-general-button, .mic-access-tool-general-button,
+        #mic-init-access-tool .mic-access-tool-general-button, #mic-init-access-tool #mic-access-tool-general-button,
+        ._access-icon { display: flex !important; visibility: visible !important; opacity: 1 !important; pointer-events: auto !important; }
+        #mic-access-tool-box, .mic-access-tool-box, #mic-init-access-tool #mic-access-tool-box,
+        div[id*="mic-access-tool-box"], ._access-menu {
+          visibility: hidden; opacity: 0; pointer-events: auto !important;
+        }
+      }
+    </style>
+</head>
+<body>
+
+
+    <div class="mobile-search-panel" id="mobile-search-panel">
+      <div class="search-wrapper">
+        <input type="text" id="mobile-search-input" placeholder="חיפוש מוצרים..." autocomplete="off">
+        <button class="search-submit" id="mobile-search-submit" title="חיפוש">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+        </button>
+        <button class="close-search" id="close-mobile-search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div class="search-results" id="mobile-search-results"></div>
+    </div>
+  
+<script>window.ZAPPY_WEBSITE_ID = "bb700e86-ae83-441f-bf29-c14068b56bc5";window.ZAPPY_API_BASE = "https://api.zappy5.com";</script>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+
+  <button class="phone-header-btn" data-phone="[business_phone]" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+
+  <div class="nav-container">
+    <div class="nav-right-group"><div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/heatwave-logo.webp" alt="Heatwave" class="logo">
+      </a>
+    </div><ul class="nav-menu" id="navMenu">
+
+    <li class="menu-item-has-children zappy-products-dropdown">
+      <a href="/products">
+        מוצרים
+        <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9l6 6 6-6"></path>
+        </svg>
+      </a>
+      <ul class="sub-menu" id="zappy-nav-category-links">
+        <li><a href="/products">כל המוצרים</a></li>
+        <!-- Categories will be loaded dynamically -->
+      </ul>
+    </li>
+  <li><a href="/">בית</a></li><li><a href="/fit-fabric">מידות וחומרים</a></li><li><a href="/brand-story">הסיפור שלנו</a></li><li><a href="/contact">צור קשר</a></li></ul><div class="nav-ecommerce-icons nav-icons-left"><a href="/login" class="login-link nav-login" title="התחברות"><svg class="login-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a><a href="#cart" class="cart-link nav-cart" id="cart-drawer-toggle" title="עגלת קניות"><svg class="cart-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span class="cart-count">0</span></a><div class="nav-search-box">
+    <input type="text" class="nav-search-input" id="nav-search-input" placeholder="חיפוש מוצרים..." autocomplete="off">
+    <button class="nav-search-btn" id="nav-search-btn" title="חיפוש">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+    </button>
+    <div class="nav-search-results" id="nav-search-results"></div>
+  </div></div><div class="nav-ecommerce-icons nav-icons-right"><button class="nav-search-toggle" id="mobile-search-toggle" title="חיפוש"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg></button></div></div>
+
+    
+
+    
+  </div>
+</nav>
+
+    <nav class="zappy-catalog-menu rtl" id="zappy-catalog-menu" dir="rtl" style="display:none">
+      <div class="catalog-menu-container">
+        <a href="/products" class="catalog-menu-item catalog-menu-all">כל המוצרים</a>
+        <div class="catalog-menu-categories" id="zappy-category-links">
+          <!-- Categories will be loaded dynamically -->
+        </div>
+      </div>
+    </nav>
+  
+<script>
+
+// Navbar Mobile Menu Toggle and Contrast Fix
+(function() {
+  // Use 'load' event instead of 'DOMContentLoaded' to ensure we run AFTER all other scripts
+  window.addEventListener('load', function() {
+    
+    // FIX MOBILE BUTTON CONTRAST
+    // Detect navbar background color and apply contrasting color to mobile buttons
+    const navbar = document.querySelector('.navbar, nav, header');
+    if (!navbar) {
+      console.log('[Navbar] Navbar element not found');
+      return;
+    }
+    
+    // DECLARE VARIABLES EARLY to avoid Temporal Dead Zone errors
+    // These are used in multiple places below
+    let mobileToggle = document.getElementById('mobileToggle') ||
+                       document.querySelector('.mobile-toggle') ||
+                       document.querySelector('.hamburger') ||
+                       document.querySelector('.hamburger-menu') ||
+                       document.querySelector('.menu-toggle') ||
+                       document.querySelector('.burger-menu') ||
+                       document.querySelector('[aria-label="Menu"]') ||
+                       document.querySelector('[aria-label="תפריט"]');
+    
+    const phoneBtn = document.querySelector('.phone-header-btn');
+    
+    const computedStyle = window.getComputedStyle(navbar);
+    let bgColor = computedStyle.backgroundColor;
+    
+    console.log('[Navbar] Initial navbar background:', bgColor);
+    
+    // Check if background is transparent or rgba with 0 alpha
+    const isTransparent = bgColor === 'transparent' || 
+                         bgColor === 'rgba(0, 0, 0, 0)' ||
+                         (bgColor.startsWith('rgba') && bgColor.includes(', 0)'));
+    
+    if (isTransparent) {
+      // Check for background-image or gradient
+      const bgImage = computedStyle.backgroundImage;
+      if (bgImage && bgImage !== 'none') {
+        console.log('[Navbar] Navbar has background image/gradient, using dark text');
+        bgColor = 'rgb(240, 240, 240)'; // Assume light background
+      } else {
+        // Transparent navbar - check body background
+        const bodyBg = window.getComputedStyle(document.body).backgroundColor;
+        console.log('[Navbar] Navbar transparent, using body background:', bodyBg);
+        bgColor = bodyBg;
+      }
+    }
+    
+    // Calculate luminance to determine if background is light or dark
+    const rgb = bgColor.match(/\d+/g);
+    if (rgb && rgb.length >= 3) {
+      const r = parseInt(rgb[0]);
+      const g = parseInt(rgb[1]);
+      const b = parseInt(rgb[2]);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      
+      // Mobile button colors are set by Claude's AI-generated CSS (same as .nav-menu a)
+      // No dynamic color overrides needed - colors come from the generated navbar CSS
+      console.log('[Navbar] Mobile button colors preserved from Claude CSS (luminance:', luminance.toFixed(2) + ')');
+      
+      // FIX ICON SIZES - Ensure SVGs are properly sized and visible
+      // INJECT CRITICAL CSS TO OVERRIDE ANY CONFLICTING RULES
+      const criticalCSS = document.createElement('style');
+      criticalCSS.id = 'zappy-mobile-nav-fix';
+      const htmlLang = document.documentElement.lang || 'en';
+      const htmlDir = document.documentElement.dir || 'ltr';
+      // Check both dir attribute AND lang for RTL detection
+      // dir="rtl" is the most reliable indicator
+      const isRTL = htmlDir === 'rtl' || htmlLang === 'he' || htmlLang === 'ar';
+      
+      criticalCSS.textContent = `
+        /* Hide mobile buttons on desktop, show only on mobile */
+        @media (min-width: 769px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            display: none !important;
+          }
+        }
+        
+        /* Show and position mobile buttons correctly on mobile */
+        @media (max-width: 768px) {
+          .mobile-toggle,
+          .phone-header-btn {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            z-index: 1001 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 50% !important;
+            border: none !important;
+            cursor: pointer !important;
+            padding: 6px !important;
+            background: none !important;
+            color: var(--nav-text, var(--text-dark)) !important;
+          }
+          
+          /* LTR positioning (default): hamburger LEFT, phone RIGHT */
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .mobile-toggle,
+          html[dir="ltr"] .mobile-toggle {
+            left: 12px !important;
+            right: auto !important;
+          }
+          html:not([dir="rtl"]):not([lang="he"]):not([lang="ar"]) .phone-header-btn,
+          html[dir="ltr"] .phone-header-btn {
+            right: 12px !important;
+            left: auto !important;
+          }
+          
+          /* RTL positioning: hamburger RIGHT, phone LEFT */
+          html[dir="rtl"] .mobile-toggle,
+          html[lang="he"] .mobile-toggle,
+          html[lang="ar"] .mobile-toggle {
+            right: 12px !important;
+            left: auto !important;
+          }
+          html[dir="rtl"] .phone-header-btn,
+          html[lang="he"] .phone-header-btn,
+          html[lang="ar"] .phone-header-btn {
+            left: 12px !important;
+            right: auto !important;
+          }
+          
+          /* CRITICAL: Ensure nav-container has min-height on mobile */
+          /* All children are positioned absolutely/fixed on mobile, so height:auto collapses to 0 */
+          .nav-container {
+            min-height: 70px !important;
+            position: relative !important;
+          }
+          
+          /* Ensure SVG icons are properly sized and inherit color */
+          .mobile-toggle svg,
+          .phone-header-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+            /* Don't force display - let JavaScript control hamburger/close toggle */
+          }
+          
+          /* Reset nav-cta-container on mobile - remove desktop box-shadow/padding */
+          /* that creates a visible ghost box when CTA button is hidden */
+          .nav-cta-container {
+            box-shadow: none !important;
+            padding: 0 !important;
+          }
+          
+          /* Hide nav-cta-container entirely on mobile when there's no lang-switcher */
+          /* (only the CTA button is inside, and it's hidden on mobile) */
+          .nav-cta-container:not(:has(.lang-switcher)) {
+            display: none !important;
+          }
+          
+          /* CRITICAL: Prevent hero image fade gradient from bleeding over headline text */
+          /* The .image-fade-gradient has bottom: -30px (extends below parent) */
+          /* On mobile stacked layout, this overlaps the h1 text below the image */
+          .hero-image-column {
+            overflow: hidden !important;
+          }
+          .image-fade-gradient {
+            bottom: 0 !important;
+          }
+          
+          /* Hide desktop language switcher on mobile - hamburger menu handles it */
+          /* High specificity to override stored CSS */
+          .lang-switcher,
+          .nav-cta-container .lang-switcher,
+          .nav-container .lang-switcher,
+          .navbar .lang-switcher,
+          .navbar .nav-cta-container .lang-switcher {
+            display: none !important;
+          }
+        }
+      `;
+      
+      // Remove existing fix if present and inject new one
+      const existing = document.getElementById('zappy-mobile-nav-fix');
+      if (existing) existing.remove();
+      document.head.appendChild(criticalCSS);
+      
+      console.log('[Navbar] Critical CSS injected for mobile nav positioning');
+      
+      // ONLY apply inline positioning styles on mobile viewport
+      // On desktop, the CSS handles hiding these buttons with display: none
+      // Inline styles were breaking desktop layout by overriding CSS
+      const isMobileViewport = window.innerWidth <= 768;
+      
+      if (mobileToggle) {
+        // Icon sizing applies to all viewports for consistency
+        const hamburgerIcon = mobileToggle.querySelector('.hamburger-icon');
+        const closeIcon = mobileToggle.querySelector('.close-icon');
+        
+        if (hamburgerIcon) {
+          hamburgerIcon.style.setProperty('width', '24px', 'important');
+          hamburgerIcon.style.setProperty('height', '24px', 'important');
+          hamburgerIcon.style.setProperty('display', 'block', 'important'); // Show hamburger by default
+        }
+        if (closeIcon) {
+          closeIcon.style.setProperty('width', '24px', 'important');
+          closeIcon.style.setProperty('height', '24px', 'important');
+          closeIcon.style.setProperty('display', 'none', 'important'); // Hide close icon by default
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          mobileToggle.style.setProperty('position', 'absolute', 'important');
+          mobileToggle.style.setProperty('top', '50%', 'important');
+          mobileToggle.style.setProperty('transform', 'translateY(-50%)', 'important');
+          mobileToggle.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          
+          console.log('[Navbar] Mobile toggle positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          mobileToggle.style.removeProperty('position');
+          mobileToggle.style.removeProperty('top');
+          mobileToggle.style.removeProperty('transform');
+          mobileToggle.style.removeProperty('z-index');
+          mobileToggle.style.removeProperty('left');
+          mobileToggle.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared mobile toggle inline positioning');
+        }
+      }
+      
+      if (phoneBtn) {
+        // Icon sizing applies to all viewports
+        const phoneIcon = phoneBtn.querySelector('svg');
+        if (phoneIcon) {
+          phoneIcon.style.width = '24px';
+          phoneIcon.style.height = '24px';
+          phoneIcon.setAttribute('width', '24');
+          phoneIcon.setAttribute('height', '24');
+        }
+        
+        // ONLY set positioning inline styles on mobile
+        if (isMobileViewport) {
+          phoneBtn.style.setProperty('position', 'absolute', 'important');
+          phoneBtn.style.setProperty('top', '50%', 'important');
+          phoneBtn.style.setProperty('transform', 'translateY(-50%)', 'important');
+          phoneBtn.style.setProperty('z-index', '1001', 'important');
+          
+          // Clear any inline left/right so CSS can take over based on html[dir]
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          
+          console.log('[Navbar] Phone button positioning applied (mobile viewport)');
+        } else {
+          // On desktop, clear any positioning styles to let CSS handle it
+          phoneBtn.style.removeProperty('position');
+          phoneBtn.style.removeProperty('top');
+          phoneBtn.style.removeProperty('transform');
+          phoneBtn.style.removeProperty('z-index');
+          phoneBtn.style.removeProperty('left');
+          phoneBtn.style.removeProperty('right');
+          console.log('[Navbar] Desktop viewport - cleared phone button inline positioning');
+        }
+      }
+    } else {
+      console.log('[Navbar] Could not parse background color:', bgColor);
+    }
+    
+    // MOBILE MENU TOGGLE
+    // Re-query in case DOM changed (mobileToggle already declared at top of function)
+    mobileToggle = document.getElementById('mobileToggle') ||
+                   document.querySelector('.mobile-toggle') ||
+                   document.querySelector('.hamburger') ||
+                   document.querySelector('.hamburger-menu') ||
+                   document.querySelector('.menu-toggle') ||
+                   document.querySelector('.burger-menu') ||
+                   document.querySelector('[aria-label="Menu"]') ||
+                   document.querySelector('[aria-label="תפריט"]');
+    
+    // EXPANDED SEARCH: Find nav menu by ID or class
+    const navMenu = document.getElementById('navMenu') ||
+                  document.querySelector('.nav-menu') ||
+                  document.querySelector('.nav-links') ||
+                  document.querySelector('nav ul:not(.submenu)');
+    
+    if (!mobileToggle || !navMenu) {
+      console.log('[Navbar] Mobile toggle or menu not found:', { toggle: !!mobileToggle, menu: !!navMenu });
+      return;
+    }
+    
+    // Ensure navMenu has ID for CSS targeting
+    if (!navMenu.id) {
+      navMenu.id = 'navMenu';
+    }
+    
+    console.log('[Navbar] Initializing mobile menu...');
+    
+    // Remove any existing event listeners by cloning the button
+    const newToggle = mobileToggle.cloneNode(true);
+    mobileToggle.parentNode.replaceChild(newToggle, mobileToggle);
+    
+    // Toggle menu on button click - use newToggle now
+    newToggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const hamburgerIcon = this.querySelector('.hamburger-icon');
+      const closeIcon = this.querySelector('.close-icon');
+      const isActive = navMenu.classList.contains('active');
+      
+      if (isActive) {
+        // Close menu
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed');
+      } else {
+        // Open menu
+        navMenu.classList.add('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'none', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'block', 'important');
+        document.body.style.overflow = 'hidden';
+        console.log('[Navbar] Menu opened');
+      }
+    });
+    
+    // Close menu when clicking nav links (but NOT dropdown toggles)
+    const navLinks = navMenu.querySelectorAll('a');
+    navLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        // Don't close if it's a dropdown child (unless it's a real navigation link)
+        if (this.getAttribute('href') === '#') return;
+        
+        const hamburgerIcon = newToggle.querySelector('.hamburger-icon');
+        const closeIcon = newToggle.querySelector('.close-icon');
+        
+        navMenu.classList.remove('active');
+        if (hamburgerIcon) hamburgerIcon.style.setProperty('display', 'block', 'important');
+        if (closeIcon) closeIcon.style.setProperty('display', 'none', 'important');
+        document.body.style.overflow = '';
+        console.log('[Navbar] Menu closed (link clicked)');
+      });
+    });
+    
+    // DROPDOWN MENU TOGGLE (for mobile and touch devices)
+    var dropdownToggles = navMenu.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var parent = this.closest('.nav-dropdown');
+        if (!parent) return;
+        
+        // Close other open dropdowns at the same level
+        var siblings = parent.parentNode.querySelectorAll('.nav-dropdown.open');
+        siblings.forEach(function(sib) {
+          if (sib !== parent) sib.classList.remove('open');
+        });
+        
+        parent.classList.toggle('open');
+        console.log('[Navbar] Dropdown toggled:', parent.classList.contains('open') ? 'open' : 'closed');
+      });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.nav-dropdown')) {
+        var openDropdowns = document.querySelectorAll('.nav-dropdown.open');
+        openDropdowns.forEach(function(dd) { dd.classList.remove('open'); });
+      }
+    });
+    
+    console.log('[Navbar] Dropdown handlers initialized for ' + dropdownToggles.length + ' dropdowns');
+    
+    // Phone button functionality (phoneBtn already declared at top of function)
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function() {
+        // Get phone number from placeholder in page or use default
+        const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+        const phoneNumber = phoneLinks.length > 0 
+          ? phoneLinks[0].getAttribute('href').replace('tel:', '')
+          : '[business_phone]';
+        
+        window.location.href = 'tel:' + phoneNumber;
+        console.log('[Navbar] Phone button clicked');
+      });
+    }
+    
+    console.log('[Navbar] Mobile menu initialized successfully');
+    
+    // WhatsApp button visibility is now controlled via CSS (siteSettings).
+    // No JS-based desktop hiding — the button is visible on both mobile and desktop by default.
+  });
+})();
+
+</script>
+  
+  <main>
+    <section class="fit-fabric-intro-section" data-layout-spec="מידות וחומרים-intro" dir="rtl">
+  <!-- Decorative backplate -->
+  <div class="fit-fabric-backplate" aria-hidden="true"></div>
+
+  <div class="fit-fabric-container">
+    <!-- Content Column (START = RIGHT in RTL) -->
+    <div class="fit-fabric-content">
+      <!-- Wavy underline motif above heading -->
+      <div class="fit-fabric-eyebrow">
+        <span class="fit-fabric-eyebrow-text">מידות וחומרים</span>
+        <svg class="fit-fabric-wavy" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 80 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,6 Q10,2 20,6 T40,6 T60,6 T80,6" stroke="#C96A4A" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6"></path>
+        </svg>
+      </div>
+
+      <h1 class="fit-fabric-heading">הכי טוב שיש לגוף שלך — בגד ים שמרגיש כמו שני</h1>
+
+      <p class="fit-fabric-lead">ב-Heatwave אנחנו מאמינות שבגד ים טוב הוא הרבה יותר מסתם בגד. הוא תחושת ביטחון, חופש, ונוחות — גם כשאת בתנועה, גם כשאת בים, וגם כשאת סתם נהנית מהשמש.</p>
+
+      <!-- Feature cluster -->
+      <ul class="fit-fabric-cluster">
+        <li class="fit-fabric-cluster-item">
+          <div class="fit-fabric-cluster-icon">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14l-4-4 1.41-1.41L11 13.17l6.59-6.59L19 8l-8 8z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <div class="fit-fabric-cluster-text">
+            <h3 class="fit-fabric-cluster-title">תמיכה מדויקת</h3>
+            <p class="fit-fabric-cluster-desc">חזיות ים בעיצוב ארגונומי שמעניקות תמיכה אמיתית לכל מידה, בלי להתפשר על מראה.</p>
+          </div>
+        </li>
+        <li class="fit-fabric-cluster-item">
+          <div class="fit-fabric-cluster-icon">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+              <path d="M17 8C8 10 5.9 16.17 3.82 19.5L5.71 21l1-1.5A4.49 4.49 0 008 20c4 0 4-2 8-2s4 2 8 2v-2c-4 0-4-2-8-2-1.13 0-1.9.16-2.53.33C14.28 12.56 16 10.34 17 8z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <div class="fit-fabric-cluster-text">
+            <h3 class="fit-fabric-cluster-title">בדים שמרגישים על העור</h3>
+            <p class="fit-fabric-cluster-desc">אנחנו בוחרות בדים איכותיים בלבד — רכים, עמידים לכלור ולשמש, ועם אלסטיות שמחזיקה את הצורה.</p>
+          </div>
+        </li>
+        <li class="fit-fabric-cluster-item">
+          <div class="fit-fabric-cluster-icon">
+            <svg data-element-type="icon" data-icon-type="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+              <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 4l5 2.18V11c0 3.5-2.33 6.79-5 7.93-2.67-1.14-5-4.43-5-7.93V7.18L12 5z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <div class="fit-fabric-cluster-text">
+            <h3 class="fit-fabric-cluster-title">ביטחון בתנועה</h3>
+            <p class="fit-fabric-cluster-desc">כל דגם עובר בדיקת התאמה כדי שתוכלי לשחות, לקפוץ, ולהיות את עצמך — בלי לחשוב על הבגד.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Image Column (END = LEFT in RTL) -->
+    <div class="fit-fabric-image-col">
+      <div class="fit-fabric-image-wrap">
+        <img data-placeholder="fit-fabric-intro-image-1" data-context="A tall editorial lifestyle photograph of a young woman in a stylish one-piece swimsuit standing in warm golden sunlight. The image has a soft, tactile quality with warm sand tones and natural light. She looks confident and relaxed, embodying the feeling of comfort and style. The image should feel like a boutique fashion editorial — feminine, warm, and unhurried. Aspect ratio approximately 3/4, portrait orientation." width="480" height="640" src="/assets/site-fit-fabric-intro-image-1.webp" alt="אישה לובשת בגד ים שלם בסגנון עדין ואלגנטי על רקע חוף חמים">
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom scalloped divider -->
+  <div class="fit-fabric-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,38 Q30,28 60,38 Q90,48 120,38 Q150,28 180,38 Q210,48 240,38 Q270,28 300,38 Q330,48 360,38 Q390,28 420,38 Q450,48 480,38 Q510,28 540,38 Q570,48 600,38 Q630,28 660,38 Q690,48 720,38 Q750,28 780,38 Q810,48 840,38 Q870,28 900,38 Q930,48 960,38 Q990,28 1020,38 Q1050,48 1080,38 Q1110,28 1140,38 Q1170,48 1200,38 L1200,70 Z" fill="#FAF8F5"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="fit-fabric-benefits-section" dir="rtl" data-layout-spec="מידות וחומרים-benefits">
+  <div class="fit-fabric-benefits-container">
+
+    <!-- Section Header -->
+    <div class="fit-fabric-benefits-header">
+      <h2 class="fit-fabric-benefits-title">למה בגדי הים שלנו שונים</h2>
+      <div class="fit-fabric-wavy-divider" aria-hidden="true">
+        <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 80 12" width="80" height="12" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,6 Q10,0 20,6 T40,6 T60,6 T80,6" stroke="#C96A4A" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"></path>
+        </svg>
+      </div>
+      <p class="fit-fabric-benefits-subtitle">כל בגד ים שלנו מתוכנן בקפידה לשלב בין נוחות, תפקוד ואסתטיקה — כדי שתרגישי מושלמת בכל רגע על החוף</p>
+    </div>
+
+    <!-- Benefits Grid -->
+    <div class="fit-fabric-benefits-grid">
+
+      <!-- Card 1: Soft Stretch Recovery -->
+      <article class="fit-fabric-benefit-card">
+        <div class="fit-fabric-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5" opacity="0.2"></circle>
+            <path d="M12 20 C12 14 16 11 20 11 C24 11 28 14 28 20 C28 26 24 29 20 29 C16 29 12 26 12 20Z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"></path>
+            <path d="M15 20 L25 20 M20 15 L20 25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M8 20 L12 20 M28 20 L32 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 2"></path>
+          </svg>
+        </div>
+        <div class="fit-fabric-card-content">
+          <h3 class="fit-fabric-card-title">גמישות שחוזרת לצורתה</h3>
+          <p class="fit-fabric-card-text">הבד שלנו נמתח בכל הכיוונים ושב לצורתו המקורית שוב ושוב. בין אם אתן שוחות, גולשות או סתם נהנות מהשמש — הבגד נשאר במקומו בלי להתמתח או לאבד את צורתו.</p>
+        </div>
+      </article>
+
+      <!-- Card 2: Sculpting Comfort -->
+      <article class="fit-fabric-benefit-card">
+        <div class="fit-fabric-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5" opacity="0.2"></circle>
+            <path d="M14 28 C14 22 17 18 20 16 C23 18 26 22 26 28" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M17 14 C17 11.8 18.3 10 20 10 C21.7 10 23 11.8 23 14 C23 16.2 21.7 18 20 18 C18.3 18 17 16.2 17 14Z" stroke="currentColor" stroke-width="1.5" fill="none"></path>
+            <path d="M14 28 L26 28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <div class="fit-fabric-card-content">
+          <h3 class="fit-fabric-card-title">עיצוב שמחמיא לגוף</h3>
+          <p class="fit-fabric-card-text">החיתוך המדויק וטכנולוגיית הריפוד הקלה יוצרים תמיכה עדינה שמחמיאה לסילואט הטבעי שלך. בגד ים שלם או ברזילאי — כל עיצוב מחשב את הגוף בצורה האלגנטית ביותר.</p>
+        </div>
+      </article>
+
+      <!-- Card 3: Quick-Dry Practicality -->
+      <article class="fit-fabric-benefit-card">
+        <div class="fit-fabric-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5" opacity="0.2"></circle>
+            <path d="M20 10 L20 30" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            <path d="M14 16 Q17 13 20 16 Q23 19 26 16" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"></path>
+            <path d="M14 22 Q17 19 20 22 Q23 25 26 22" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"></path>
+            <path d="M22 10 L26 14 M22 10 L26 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div class="fit-fabric-card-content">
+          <h3 class="fit-fabric-card-title">יבש תוך דקות</h3>
+          <p class="fit-fabric-card-text">הבד המתקדם שלנו מנדף לחות במהירות ומתייבש כמעט מיידית. תוכלי לצאת מהמים ולהמשיך ליום שלך בנוחות מלאה — ללא תחושת כבדות ורטיבות שמלווה בגדי ים רגילים.</p>
+        </div>
+      </article>
+
+      <!-- Card 4: Silhouette Confidence -->
+      <article class="fit-fabric-benefit-card">
+        <div class="fit-fabric-card-icon-wrap">
+          <svg data-element-type="icon" data-icon-type="svg" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5" opacity="0.2"></circle>
+            <path d="M20 12 L22.5 17.5 L28.5 18.2 L24 22.5 L25.2 28.5 L20 25.5 L14.8 28.5 L16 22.5 L11.5 18.2 L17.5 17.5 Z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div class="fit-fabric-card-content">
+          <h3 class="fit-fabric-card-title">ביטחון בכל צעד</h3>
+          <p class="fit-fabric-card-text">כשהבגד יושב בדיוק כמו שצריך, הביטחון מגיע מעצמו. העיצובים שלנו נבחרו כדי להדגיש את הקווים הנכונים ולהעניק לך את התחושה שאת בדיוק במקום הנכון — על החוף ומחוצה לו.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+
+  <!-- Bottom Angled Divider -->
+  <div class="fit-fabric-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,30 L1200,0 L1200,70 Z" fill="#2C1A0E"></path>
+    </svg>
+  </div>
+
+</section>
+
+<section class="fit-fabric-process-section" data-layout-spec="מידות וחומרים-process" dir="rtl">
+  <!-- Linen texture overlay -->
+  <div class="ffp-texture" aria-hidden="true"></div>
+
+  <!-- Section Header -->
+  <div class="ffp-header">
+    <span class="ffp-label">הפילוסופיה שלנו</span>
+    <h2 class="ffp-title">מהחומר ועד לתחושה</h2>
+    <!-- Wavy underline motif -->
+    <svg class="ffp-wavy-line" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 120 18" xmlns="http://www.w3.org/2000/svg" width="120" height="18">
+      <path d="M0,9 Q15,3 30,9 T60,9 T90,9 T120,9" stroke="#C96A4A" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"></path>
+    </svg>
+    <p class="ffp-subtitle">כל בגד ים שאנחנו מציעים עובר תהליך מחושב של בחירה, עיצוב ואיזון — כדי שתרגישי בדיוק כמו שמגיע לך להרגיש על החוף.</p>
+  </div>
+
+  <!-- Steps Container -->
+  <div class="ffp-steps">
+
+    <!-- Step 1 -->
+    <article class="ffp-step ffp-step--image-start">
+      <div class="ffp-step-image-panel">
+        <img data-placeholder="fit-fabric-process-image-1" data-context="Close-up editorial shot of luxurious swimwear fabric swatches in warm terracotta, sage green, and aqua tones draped over a sun-bleached wooden surface. Tactile textures visible — ribbed lycra, matte nylon, and subtle shimmer weaves. Warm golden-hour light from the side. Boutique fashion brand aesthetic." width="600" height="750" src="/assets/site-fit-fabric-process-image-1.webp" alt="בחירת חומרים לבגדי ים איכותיים" class="ffp-step-img">
+        <div class="ffp-img-glow" aria-hidden="true"></div>
+      </div>
+      <div class="ffp-step-content">
+        <div class="ffp-step-marker">
+          <span class="ffp-step-number">01</span>
+          <span class="ffp-step-line" aria-hidden="true"></span>
+        </div>
+        <h3 class="ffp-step-title">בחירת החומרים הנכונים</h3>
+        <p class="ffp-step-text">אנחנו מאמינים שבגד ים טוב מתחיל הרבה לפני שהוא מגיע לידיים שלך. כל בד נבחר בקפידה — עמידות בפני כלור, מי ים ושמש, יחד עם תחושה רכה ונעימה על העור. אנחנו עובדים עם בדי ליקרה, ניילון ממוחזר ורקמות מיוחדות שמחזיקות את צורתן גם לאחר שימוש ממושך בים ובבריכה.</p>
+        <div class="ffp-step-detail">
+          <span class="ffp-detail-dot" aria-hidden="true"></span>
+          <span>בדים עמידים לכלור ולמי ים</span>
+        </div>
+        <div class="ffp-step-detail">
+          <span class="ffp-detail-dot" aria-hidden="true"></span>
+          <span>חומרים ממוחזרים ואחראיים לסביבה</span>
+        </div>
+        <div class="ffp-step-detail">
+          <span class="ffp-detail-dot" aria-hidden="true"></span>
+          <span>תחושת מגע רכה ונוחה לאורך כל היום</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Step 2 -->
+    <article class="ffp-step ffp-step--image-end">
+      <div class="ffp-step-content ffp-step-content--alt">
+        <div class="ffp-step-marker">
+          <span class="ffp-step-number">02</span>
+          <span class="ffp-step-line" aria-hidden="true"></span>
+        </div>
+        <h3 class="ffp-step-title">עיצוב קווי הסילואט</h3>
+        <p class="ffp-step-text">הסילואט הוא הנשמה של כל בגד ים. אנחנו מקדישים זמן רב לחשיבה על קווים — איפה הם מחמיאים, איפה הם מאריכים, ואיך הם יוצרים הרמוניה עם גוף אמיתי בתנועה. בגד ים ברזילאי, בגד ים שלם, ביקיני קלאסי — כל גזרה מעוצבת בנפרד כדי שתשרת את מי שלובשת אותה בצורה הטובה ביותר.</p>
+        <div class="ffp-step-detail">
+          <span class="ffp-detail-dot" aria-hidden="true"></span>
+          <span>גזרות שמחמיאות לכל סוגי הגוף</span>
+        </div>
+        <div class="ffp-step-detail">
+          <span class="ffp-detail-dot" aria-hidden="true"></span>
+          <span>עיצוב מבוסס תנועה ונוחות אמיתית</span>
+        </div>
+        <div class="ffp-step-detail">
+          <span class="ffp-detail-dot" aria-hidden="true"></span>
+          <span>קווים נקיים שמאריכים ומאזנים</span>
+        </div>
+      </div>
+      <div class="ffp-step-image-panel ffp-step-image-panel--sage">
+        <div class="ffp-sage-panel" aria-hidden="true">
+          <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" class="ffp-silhouette-svg">
+            <ellipse cx="200" cy="120" rx="60" ry="70" fill="none" stroke="rgba(134,184,196,0.4)" stroke-width="1.5"></ellipse>
+            <path d="M140,180 Q160,320 150,460" stroke="rgba(134,184,196,0.3)" stroke-width="1.5" fill="none"></path>
+            <path d="M260,180 Q240,320 250,460" stroke="rgba(134,184,196,0.3)" stroke-width="1.5" fill="none"></path>
+            <path d="M140,260 Q200,290 260,260" stroke="rgba(196,106,74,0.35)" stroke-width="2" fill="none"></path>
+            <circle cx="200" cy="200" r="80" fill="none" stroke="rgba(134,184,196,0.15)" stroke-width="40"></circle>
+            <path d="M160,340 Q200,360 240,340 Q230,420 200,450 Q170,420 160,340Z" fill="rgba(124,138,106,0.2)"></path>
+          </svg>
+        </div>
+        <div class="ffp-step-number-bg" aria-hidden="true">02</div>
+      </div>
+    </article>
+
+    <!-- Step 3 -->
+    <article class="ffp-step ffp-step--image-start">
+      <div class="ffp-step-image-panel">
+        <img data-placeholder="fit-fabric-process-image-2" data-context="Woman wearing a stylish one-piece swimsuit on a sandy beach at golden hour. The swimsuit has elegant cut lines and a flattering silhouette. Warm sunset light creates a soft glow. Editorial fashion photography style, boutique beachwear brand, feminine and confident mood. Terracotta and warm cream tones." width="600" height="750" src="/assets/site-fit-fabric-process-image-2.webp" alt="איזון בין נוחות לאסתטיקה בבגדי ים" class="ffp-step-img">
+        <div class="ffp-img-glow" aria-hidden="true"></div>
+      </div>
+      <div class="ffp-step-content">
+        <div class="ffp-step-marker">
+          <span class="ffp-step-number">03</span>
+          <span class="ffp-step-line" aria-hidden="true"></span>
+        </div>
+        <h3 class="ffp-step-title">איזון בין נוחות לאסתטיקה</h3>
+        <p class="ffp-step-text">השלב האחרון הוא השאלה הכי חשובה: האם הבגד מרגיש טוב כמו שהוא נראה? אנחנו מאמינות שבגדי ים יפים לא אמורים להיות לא נוחים. לכן כל דגם עובר בדיקות לבישה, כוללות אלסטיות מדויקת, תפרים שטוחים שלא מגרדים, ורפידות שנשארות במקומן — בים, בבריכה ובכל הדרך מהחוף לקפה.</p>
+        <div class="ffp-step-detail">
+          <span class="ffp-detail-dot" aria-hidden="true"></span>
+          <span>תפרים שטוחים ללא גירוי</span>
+        </div>
+        <div class="ffp-step-detail">
+          <span class="ffp-detail-dot" aria-hidden="true"></span>
+          <span>אלסטיות מדויקת שמחזיקה במקום</span>
+        </div>
+        <div class="ffp-step-detail">
+          <span class="ffp-detail-dot" aria-hidden="true"></span>
+          <span>עיצוב שמלווה אותך מהים לעיר</span>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Bottom torn-paper divider -->
+  <div class="ffp-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,70 L0,38 Q36,28 72,38 T144,32 Q180,38 216,28 T288,34 Q324,28 360,36 T432,30 Q468,38 504,28 T576,34 Q612,28 648,36 T720,30 Q756,38 792,28 T864,34 Q900,28 936,36 T1008,30 Q1044,38 1080,28 T1152,34 Q1188,28 1224,36 T1296,30 Q1332,38 1368,28 T1440,34 L1440,70 Z" fill="#FAF8F5"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="fit-fabric-faq-section" data-layout-spec="מידות וחומרים-faq" dir="rtl">
+  <div class="faq-container">
+
+    <!-- Centered Intro Block -->
+    <div class="faq-intro">
+      <span class="faq-label">שאלות נפוצות</span>
+      <h2 class="faq-heading">כל מה שרצית לדעת על בגדי הים שלנו</h2>
+      <svg class="faq-wavy-divider" data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 80 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,6 Q10,1 20,6 T40,6 T60,6 T80,6" stroke="#C96A4A" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6"></path>
+      </svg>
+      <p class="faq-subtitle">מחומרים ועד טיפוח, מהתאמת מידות ועד מה שהופך את הקולקציה שלנו לייחודית — ריכזנו עבורך את התשובות הכי חשובות במקום אחד.</p>
+    </div>
+
+    <!-- Two-Column FAQ Grid -->
+    <div class="faq-grid">
+
+      <!-- Card 1 -->
+      <article class="faq-card faq-card--tall">
+        <div class="faq-card-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="14" r="12" stroke="currentColor" stroke-width="1.5"></circle>
+            <path d="M14 9v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <h3 class="faq-card-question">איך בוחרים את המידה הנכונה?</h3>
+        <p class="faq-card-answer">אנחנו ממליצות למדוד את היקף החזה, המותן והירכיים ולהשוות לטבלת המידות שלנו. בגד ים ברזילאי, לדוגמה, נוטה להיות חתוך גבוה בירך ולכן כדאי לבחור לפי מידת הירכיים. אם את בין שתי מידות, עדיף לעלות מידה אחת.</p>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="faq-card faq-card--short">
+        <div class="faq-card-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 22 L14 6 L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M9 17h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <h3 class="faq-card-question">מאילו בדים עשויים בגדי הים?</h3>
+        <p class="faq-card-answer">הקולקציה שלנו עשויה מבד ליקרה איכותי בעל 80% ניילון ו-20% אלסטן. הבד עמיד לכלור, שמן קרם הגנה ומי ים, שומר על צבעו לאורך זמן ומתייבש מהר.</p>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="faq-card faq-card--short">
+        <div class="faq-card-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 20 Q14 8 20 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"></path>
+            <circle cx="14" cy="10" r="3" stroke="currentColor" stroke-width="1.5"></circle>
+          </svg>
+        </div>
+        <h3 class="faq-card-question">האם יש תמיכה לחזה בבגדי הים?</h3>
+        <p class="faq-card-answer">רוב הדגמים כוללים כוסות פנימיות נשלפות לתמיכה עדינה. דגמים מסוימים מגיעים עם חישוקים מובנים לתמיכה מוגברת — פרט זה מצוין בדף המוצר של כל פריט.</p>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="faq-card faq-card--tall">
+        <div class="faq-card-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 14 Q8 8 14 8 Q20 8 23 14 Q20 20 14 20 Q8 20 5 14Z" stroke="currentColor" stroke-width="1.5" fill="none"></path>
+            <circle cx="14" cy="14" r="3" stroke="currentColor" stroke-width="1.5"></circle>
+          </svg>
+        </div>
+        <h3 class="faq-card-question">איך מטפלים נכון בבגד הים?</h3>
+        <p class="faq-card-answer">מומלץ לשטוף את בגד הים ביד במים קרים מיד לאחר השימוש, במיוחד לאחר חשיפה לכלור או מי ים. יש להימנע ממכונת כביסה, מייבש ופיתול חזק. ייבוש בצל בשטוח ישמור על צורת הבד ועל הצבע לאורך זמן.</p>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="faq-card faq-card--medium">
+        <div class="faq-card-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="7" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.5"></rect>
+            <path d="M10 7V5M18 7V5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            <path d="M9 14h10M9 18h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <h3 class="faq-card-question">מה ההבדל בין בגד ים שלם לברזילאי?</h3>
+        <p class="faq-card-answer">בגד ים שלם מכסה את כל הגוף ומתאים לשחייה פעילה ולנשים המחפשות כיסוי מלא. בגד ים ברזילאי מאופיין בחיתוך גבוה בירך ומינימלי בגב, ומיועד לאלו שאוהבות מראה נועז וקווי גוף מוארכים.</p>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="faq-card faq-card--medium">
+        <div class="faq-card-icon" aria-hidden="true">
+          <svg data-element-type="icon" data-icon-type="svg" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 5 L16.5 10.5 L23 11.5 L18.5 16 L19.5 22.5 L14 19.5 L8.5 22.5 L9.5 16 L5 11.5 L11.5 10.5 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="none"></path>
+          </svg>
+        </div>
+        <h3 class="faq-card-question">מה מייחד את הקולקציה של Heatwave?</h3>
+        <p class="faq-card-answer">כל פריט בקולקציה מעוצב עם תשומת לב לפרטים: תפרים שטוחים שלא גורמים לגירוי, צבעים שנבחרו לעמוד בשמש, וחיתוכים שמחמיאים למגוון סוגי גוף. אנחנו מאמינות שבגד ים טוב הוא כזה שמרגישים בו טוב — לא רק נראים.</p>
+      </article>
+
+    </div>
+    <!-- End FAQ Grid -->
+
+  </div>
+
+  <!-- Bottom curved fading divider -->
+  <div class="faq-bottom-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="faqDividerFade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F5EFE6" stop-opacity="0"></stop>
+          <stop offset="100%" stop-color="#F5EFE6" stop-opacity="1"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M0,60 L0,30 Q150,5 300,25 T600,15 T900,28 T1200,10 L1200,60 Z" fill="var(--bg-dark)"></path>
+      <path d="M0,30 Q150,5 300,25 T600,15 T900,28 T1200,10" stroke="#E6D7C3" stroke-width="1" fill="var(--bg-dark)" opacity="0.5"></path>
+    </svg>
+  </div>
+
+</section>
+  </main>
+  
+  <footer class="site-footer" dir="rtl">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <!-- Column 1: Brand Info -->
+      <div class="footer-col footer-brand">
+        <a href="/" class="footer-logo-link">
+          <img src="/assets/heatwave-logo.webp" alt="Heatwave" class="logo">
+        </a>
+        <p class="footer-tagline">אופנה שמרגישה כמו שמש על העור — בגדים שנולדו מהים, לחיים שמחוצה לו.</p>
+        <div class="footer-social">
+          <a href="[facebook_handle]" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="[instagram_handle]" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="[whatsapp_handle]" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col">
+        <h3 class="footer-heading">ניווט מהיר</h3>
+        <div class="footer-heading-line"></div>
+        <ul class="footer-links">
+          <li><a href="/">בית</a></li>
+          <li><a href="/fit-fabric">מידות וחומרים</a></li>
+          <li><a href="/brand-story">הסיפור שלנו</a></li>
+          <li><a href="/contact">צור קשר</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact -->
+      <div class="footer-col">
+        <h3 class="footer-heading">יצירת קשר</h3>
+        <div class="footer-heading-line"></div>
+        <ul class="footer-contact">
+          <li>
+            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+            <span class="contact-text"><a href="mailto:[business_email]">[business_email]</a></span>
+          </li>
+          <li>
+            <span class="contact-icon"><i class="fas fa-phone"></i></span>
+            <span class="contact-text"><a href="tel:[business_phone]">[business_phone]</a></span>
+          </li>
+          <li><a href="/"><span class="contact-icon"><i class="fas fa-map-marker-alt"></i></span>
+            <span class="contact-text">[business_address]</span></a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Newsletter / Extra -->
+      <div class="footer-col footer-newsletter">
+        <h3 class="footer-heading">הישארי מעודכנת</h3>
+        <div class="footer-heading-line"></div>
+        <p class="footer-newsletter-text">קולקציות חדשות, סטיילינג טיפס ועוד — ישירות לתיבה שלך.</p>
+        <form class="newsletter-form" onsubmit="return false;">
+          <input type="email" placeholder="כתובת המייל שלך" aria-label="כתובת מייל">
+          <button type="submit">הצטרפי</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="footer-divider"></div>
+
+    <!-- Bottom Bar -->
+    <div class="footer-bottom">
+      <p class="footer-copyright">© 2026 Heatwave. כל הזכויות שמורות.</p>
+      <div class="footer-legal">
+        <a href="/privacy">מדיניות פרטיות</a>
+        <span class="legal-sep">·</span>
+        <a href="/terms">תנאי שימוש</a><span class="separator">|</span>
+            <a href="/return-policy" aria-label="מדיניות החזרות">
+              מדיניות החזרות
+            </a>
+        <span class="legal-sep">·</span>
+        <a href="/accessibility">נגישות</a>
+        <span class="legal-sep">·</span>
+        <a href="https://zappy5.com" target="_blank" class="zappy-attribution">נוצר באמצעות Zappy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <div data-integration="accessibility:toolbar"></div>
+
+    <script src="/script.js"></script>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body>
+</html>
