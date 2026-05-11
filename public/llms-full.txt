@@ -119,7 +119,7 @@ Description: An online swimwear store focused on selling swimwear products throu
 
 קולקציית הקיץ החדשה
 
-# בגדי ים שמרגישים כמו חופש !
+# בגדי ים שמרגישים כמו חופש
 
 
 ### עיצובים שמשלבים ביטחון, נוחות וסטייל ים — כי כל רגע על החוף ראוי להיות מושלם.
