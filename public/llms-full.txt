@@ -2,13 +2,13 @@
 
 An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a direct-to-consumer online retail model.
 
-Source: https://example.com
+Source: https://heatwave.zappy5.app
 
 ---
 
 ## בגדי ים — Heatwave
 
-URL: https://example.com
+URL: https://heatwave.zappy5.app
 Description: An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a d
 
 בגדי ים — Heatwave
@@ -569,7 +569,7 @@ Shop Now
 
 ## מידות וחומרים — Heatwave
 
-URL: https://example.com/fit-fabric
+URL: https://heatwave.zappy5.app/fit-fabric
 Description: מידות וחומרים | Heatwave. בגדי ים
 
 מידות וחומרים — Heatwave
@@ -1159,7 +1159,7 @@ Shop Now
 
 ## הסיפור שלנו — Heatwave
 
-URL: https://example.com/brand-story
+URL: https://heatwave.zappy5.app/brand-story
 Description: הסיפור שלנו | Heatwave. בגדי ים
 
 הסיפור שלנו — Heatwave
@@ -1629,7 +1629,7 @@ Shop Now
 
 ## צור קשר — Heatwave
 
-URL: https://example.com/contact
+URL: https://heatwave.zappy5.app/contact
 Description: צור קשר | Heatwave. בגדי ים
 
 צור קשר — Heatwave
@@ -2156,7 +2156,7 @@ Shop Now
 
 ## מוצרים
 
-URL: https://example.com/products
+URL: https://heatwave.zappy5.app/products
 Description: המוצרים שלנו - Heatwave
 
 מוצרים - Heatwave
@@ -2406,7 +2406,7 @@ Shop Now
 
 ## עגלת קניות
 
-URL: https://example.com/cart
+URL: https://heatwave.zappy5.app/cart
 Description: עגלת הקניות שלך
 
 עגלת קניות - Heatwave
@@ -2632,7 +2632,7 @@ Shop Now
 
 ## תשלום
 
-URL: https://example.com/checkout
+URL: https://heatwave.zappy5.app/checkout
 Description: תשלום
 
 תשלום - Heatwave
@@ -3041,7 +3041,7 @@ Shop Now
 
 ## התחברות
 
-URL: https://example.com/login
+URL: https://heatwave.zappy5.app/login
 Description: התחברות לקוחות
 
 התחברות - Heatwave
@@ -3274,7 +3274,7 @@ Shop Now
 
 ## החשבון שלי
 
-URL: https://example.com/account
+URL: https://heatwave.zappy5.app/account
 Description: החשבון שלי
 
 החשבון שלי - Heatwave
@@ -3662,7 +3662,7 @@ Shop Now
 
 ## ההזמנה התקבלה!
 
-URL: https://example.com/order-success
+URL: https://heatwave.zappy5.app/order-success
 Description: תודה על ההזמנה
 
 ההזמנה התקבלה! - Heatwave
@@ -3912,7 +3912,7 @@ Shop Now
 
 ## מדיניות החזרות
 
-URL: https://example.com/return-policy
+URL: https://heatwave.zappy5.app/return-policy
 Description: מדיניות החזרת מוצרים - זכויותיכם להחזרה והחלפה בהתאם לחוק
 
 מדיניות החזרות - Heatwave
@@ -4191,7 +4191,7 @@ Shop Now
 
 ## פרטי המוצר
 
-URL: https://example.com/product/:slug
+URL: https://heatwave.zappy5.app/product/:slug
 Description: פרטי המוצר - Heatwave
 
 פרטי המוצר - Heatwave
@@ -4419,7 +4419,7 @@ Shop Now
 
 ## מוצרים
 
-URL: https://example.com/category/:slug
+URL: https://heatwave.zappy5.app/category/:slug
 Description: מוצרים - Heatwave
 
 מוצרים - Heatwave
@@ -4671,7 +4671,7 @@ Shop Now
 
 ## מדיניות פרטיות
 
-URL: https://example.com/privacy
+URL: https://heatwave.zappy5.app/privacy
 Description: מדיניות הפרטיות שלנו - כיצד אנו אוספים, משתמשים ומגנים על המידע שלכם
 
 מדיניות פרטיות
@@ -4974,7 +4974,7 @@ Shop Now
 
 ## הצהרת נגישות
 
-URL: https://example.com/accessibility
+URL: https://heatwave.zappy5.app/accessibility
 Description: הצהרת הנגישות שלנו - מחויבותנו לנגישות דיגיטלית
 
 הצהרת נגישות
@@ -5286,7 +5286,7 @@ Shop Now
 
 ## תנאי שימוש
 
-URL: https://example.com/terms
+URL: https://heatwave.zappy5.app/terms
 Description: תנאי השימוש באתר - הזכויות והחובות של המשתמשים
 
 תנאי שימוש
@@ -5618,14 +5618,14 @@ Shop Now
 ## Product Catalog
 
 ### בגד ים ג'ניפר 
-URL: https://example.com/product/bgd-ym-gnypr-hfhl0h
+URL: https://heatwave.zappy5.app/product/bgd-ym-gnypr-hfhl0h
 Price: 159.00 ILS (sale, was 190.00 ILS)
 Availability: In stock
 
 ---
 
 ### בגד ים סופי 
-URL: https://example.com/product/bgd-ym-svpy-7n3qf0
+URL: https://heatwave.zappy5.app/product/bgd-ym-svpy-7n3qf0
 Price: 129.00 ILS (sale, was 150.00 ILS)
 Availability: In stock
 

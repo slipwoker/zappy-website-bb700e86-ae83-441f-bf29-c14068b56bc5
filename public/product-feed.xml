@@ -2,15 +2,15 @@
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
   <channel>
     <title>Heatwave</title>
-    <link>https://example.com</link>
+    <link>https://heatwave.zappy5.app</link>
     <description>Product feed for Heatwave</description>
-    <lastBuildDate>Thu, 14 May 2026 14:29:44 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2026 14:30:04 GMT</lastBuildDate>
     <item>
       <g:id>7926fb87-0f74-49a7-b02b-d4caa53caef3</g:id>
       <g:title>בגד ים ג&apos;ניפר </g:title>
       <g:description>בגד ים ג&apos;ניפר</g:description>
-      <g:link>https://example.com/product/bgd-ym-gnypr-hfhl0h</g:link>
-      <g:image_link>https://example.com/assets/image-product-image-1778506898186-diax5m.webp</g:image_link>
+      <g:link>https://heatwave.zappy5.app/product/bgd-ym-gnypr-hfhl0h</g:link>
+      <g:image_link>https://heatwave.zappy5.app/assets/image-product-image-1778506898186-diax5m.webp</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:price>159.00 ILS</g:price>
       <g:sale_price>159.00 ILS</g:sale_price>
@@ -22,8 +22,8 @@
       <g:id>56b108dc-1087-4667-9ad2-897a0a07b251</g:id>
       <g:title>בגד ים סופי </g:title>
       <g:description>בגד ים סופי</g:description>
-      <g:link>https://example.com/product/bgd-ym-svpy-7n3qf0</g:link>
-      <g:image_link>https://example.com/assets/image-product-image-1778506842098-lv8zeh.webp</g:image_link>
+      <g:link>https://heatwave.zappy5.app/product/bgd-ym-svpy-7n3qf0</g:link>
+      <g:image_link>https://heatwave.zappy5.app/assets/image-product-image-1778506842098-lv8zeh.webp</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:price>129.00 ILS</g:price>
       <g:sale_price>129.00 ILS</g:sale_price>

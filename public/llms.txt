@@ -7,65 +7,65 @@
 ## Pages
 
 ### בית
-https://example.com
+https://heatwave.zappy5.app
 An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a d
 
 ### מידות וחומרים
-https://example.com/fit-fabric
+https://heatwave.zappy5.app/fit-fabric
 מידות וחומרים | Heatwave. בגדי ים
 
 ### הסיפור שלנו
-https://example.com/brand-story
+https://heatwave.zappy5.app/brand-story
 הסיפור שלנו | Heatwave. בגדי ים
 
 ### צור קשר
-https://example.com/contact
+https://heatwave.zappy5.app/contact
 צור קשר | Heatwave. בגדי ים
 
 ### Products
-https://example.com/products
+https://heatwave.zappy5.app/products
 המוצרים שלנו - Heatwave
 
 ### Cart
-https://example.com/cart
+https://heatwave.zappy5.app/cart
 עגלת הקניות שלך
 
 ### Checkout
-https://example.com/checkout
+https://heatwave.zappy5.app/checkout
 תשלום
 
 ### Login
-https://example.com/login
+https://heatwave.zappy5.app/login
 התחברות לקוחות
 
 ### Account
-https://example.com/account
+https://heatwave.zappy5.app/account
 החשבון שלי
 
 ### Order Success
-https://example.com/order-success
+https://heatwave.zappy5.app/order-success
 תודה על ההזמנה
 
 ### Product Detail
-https://example.com/product/:slug
+https://heatwave.zappy5.app/product/:slug
 פרטי המוצר - Heatwave
 
 ### Category
-https://example.com/category/:slug
+https://heatwave.zappy5.app/category/:slug
 מוצרים - Heatwave
 
 ## Legal & Policy
 
 ### Privacy Policy
-https://example.com/privacy
+https://heatwave.zappy5.app/privacy
 Information about how user data is collected, stored, and protected.
 
 ### Terms & Conditions
-https://example.com/terms
+https://heatwave.zappy5.app/terms
 Legal terms describing service usage, rights, and policies.
 
 ### Accessibility Statement
-https://example.com/accessibility
+https://heatwave.zappy5.app/accessibility
 Information about WCAG compliance and accessibility features.
 
 ---
@@ -75,16 +75,16 @@ Information about WCAG compliance and accessibility features.
 **Total active products: 2**
 
 ### בגד ים ג'ניפר 
-https://example.com/product/bgd-ym-gnypr-hfhl0h
+https://heatwave.zappy5.app/product/bgd-ym-gnypr-hfhl0h
 - Price: 159.00 ILS (sale, was 190.00 ILS)
 - Availability: In stock
-- Image: https://example.com/assets/image-product-image-1778506898186-diax5m.webp
+- Image: https://heatwave.zappy5.app/assets/image-product-image-1778506898186-diax5m.webp
 
 ### בגד ים סופי 
-https://example.com/product/bgd-ym-svpy-7n3qf0
+https://heatwave.zappy5.app/product/bgd-ym-svpy-7n3qf0
 - Price: 129.00 ILS (sale, was 150.00 ILS)
 - Availability: In stock
-- Image: https://example.com/assets/image-product-image-1778506842098-lv8zeh.webp
+- Image: https://heatwave.zappy5.app/assets/image-product-image-1778506842098-lv8zeh.webp
 
 ---
 
@@ -108,8 +108,8 @@ An online swimwear store focused on selling swimwear products through an e-comme
 
 # Machine-readable feeds
 
-- Sitemap (XML): https://example.com/sitemap.xml
-- Robots: https://example.com/robots.txt
-- Flattened page text (for LLMs): https://example.com/llms-full.txt
-- Products (JSON): https://example.com/products.json
-- Products (Google Merchant RSS): https://example.com/product-feed.xml
+- Sitemap (XML): https://heatwave.zappy5.app/sitemap.xml
+- Robots: https://heatwave.zappy5.app/robots.txt
+- Flattened page text (for LLMs): https://heatwave.zappy5.app/llms-full.txt
+- Products (JSON): https://heatwave.zappy5.app/products.json
+- Products (Google Merchant RSS): https://heatwave.zappy5.app/product-feed.xml
