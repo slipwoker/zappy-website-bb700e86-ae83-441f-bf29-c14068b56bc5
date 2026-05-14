@@ -223,6 +223,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="בגדי ים — Heatwave">
     <meta name="twitter:description" content="An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a d">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://heatwave.zappy5.app#organization","name":"Heatwave","url":"https://heatwave.zappy5.app","description":"An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a direct-to-consumer online retail model."},{"@type":"WebSite","@id":"https://heatwave.zappy5.app#website","url":"https://heatwave.zappy5.app","name":"Heatwave","publisher":{"@id":"https://heatwave.zappy5.app#organization"}}]}</script>
     <meta property="og:type" content="website">
   <meta property="og:locale" content="he_IL">
   
@@ -245,32 +246,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
     <!-- Mickidum Accessibility Toolbar -->
     <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
-
-    <style id="zppb-promo-banner-styles">
-    .zppb-overlay { display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.45); align-items: center; justify-content: center; }
-    .zppb-overlay.zppb-visible { display:flex; }
-    .zppb-banner { position:relative; overflow:hidden; text-align:center; padding:48px 36px; background:#ffb3db; color:#ffffff; border-radius:16px; max-width:500px; width:92%; min-height:500px; display:flex; flex-direction:column; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation: zppbFadeIn 0.35s ease forwards; }
-    .zppb-bg-img { position:absolute; inset:0; background-size:cover; background-position:center; }
-    .zppb-content { position:relative; z-index:1; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-    .zppb-close { position:absolute; top:14px; right:14px; z-index:2; background:rgba(0,0,0,0.3); border:none; color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:18px; line-height:1; display:flex; align-items:center; justify-content:center; }
-    .zppb-close:hover { background:rgba(0,0,0,0.5); }
-    .zppb-h { font-size:28px; font-weight:700; margin:0 0 10px; color:#ffffff !important; }
-    .zppb-sub { font-size:16px; opacity:0.85; margin:0 0 24px; max-width:380px; color:#ffffff !important; white-space:pre-line; }
-    .zppb-cta { display:inline-block; padding:14px 36px; border-radius:50px; font-size:16px; font-weight:600; text-decoration:none; cursor:pointer; border:none; background:#e94560; color:#ffffff; margin-top:8px; }
-    .zppb-cta:hover { opacity:0.9; }
-    .zppb-coupon { display:inline-block; margin-bottom:20px; padding:10px 24px; border:2px dashed #e94560; border-radius:10px; font-family:monospace; font-weight:700; font-size:18px; color:#e94560; letter-spacing:2px; }
-    .zppb-countdown { display:flex; gap:8px; justify-content:center; margin-bottom:24px; font-size:32px; font-weight:700; font-family:monospace; direction:ltr; }
-    .zppb-countdown span { background:#e94560; color:#ffffff; padding:8px 16px; border-radius:8px; }
-    .zppb-fields { display:flex; flex-direction:column; gap:10px; max-width:340px; width:100%; margin:0 auto 20px; }
-    .zppb-input { width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.15); color:#ffffff; font-size:15px; outline:none; box-sizing:border-box; }
-    .zppb-input::placeholder { color:#ffffff; opacity:0.5; }
-    .zppb-input:focus { border-color:#e94560; background:rgba(255,255,255,0.25); }
-    @keyframes zppbFadeIn { from { opacity:0; } to { opacity:1; } }
-    @keyframes zppbSlideUp { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes zppbScaleIn { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
-    @media (max-width:480px) { .zppb-banner { padding:32px 20px; min-height:400px; } .zppb-h { font-size:22px; } .zppb-sub { font-size:14px; } .zppb-countdown { font-size:24px; } .zppb-countdown span { padding:6px 12px; } }
-    body.zappy-edit-mode .zppb-overlay { display:none !important; }
-    </style>
     <link rel="stylesheet" href="/styles.css">
 
     <style id="zappy-dropdown-submenu-styles">
@@ -376,7 +351,7 @@
       <div class="search-results" id="mobile-search-results"></div>
     </div>
   
-<script>window.ZAPPY_WEBSITE_ID = "bb700e86-ae83-441f-bf29-c14068b56bc5";window.ZAPPY_API_BASE = "https://api.zappy5.com";</script>
+<script>window.ZAPPY_WEBSITE_ID = "bb700e86-ae83-441f-bf29-c14068b56bc5";window.ZAPPY_API_BASE = (window.location.pathname.includes('/preview') ? "https://api.zappy5.com" : "https://api.zappy5.com");</script>
   <nav class="navbar" dir="rtl">
   <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
     <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -825,7 +800,7 @@
 </script>
   
   <main>
-    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="fullscreen-scrim" id="index-hero-section" data-zappy-content-align="center-mid-left" style="min-height: 629.009px !important; --zappy-bg-overlay: rgba(44, 26, 14, 0.55); --zappy-bg-image: url(&quot;assets/site-index-hero-image-1-1778506727787-rg1vfo.webp?v=1778506730748&quot;); background-image: linear-gradient(rgba(44, 26, 14, 0.55), rgba(44, 26, 14, 0.55)), url(&quot;assets/site-index-hero-image-1-1778506727787-rg1vfo.webp?v=1778506730748&quot;); background-size: cover; background-position: center center; background-repeat: no-repeat; position: relative; overflow: hidden;" data-zappy-bg-type="image" data-zappy-bg-color="" data-zappy-bg-image="assets/site-index-hero-image-1-1778506727787-rg1vfo.webp?v=1778506730748" data-zappy-bg-overlay-color="#2c1a0e" data-zappy-bg-overlay-opacity="86" data-zappy-bg-video-type="" data-zappy-bg-video-url="">
+    <section class="index-hero-section" data-layout-spec="בית-hero" dir="rtl" data-hero-type="fullscreen-scrim" id="index-hero-section" data-zappy-content-align="center-mid-left" style="--zappy-bg-overlay: rgba(44, 26, 14, 0.55); --zappy-bg-image: url(&quot;assets/site-index-hero-image-1-1778506727787-rg1vfo.webp?v=1778506730748&quot;); background-image: linear-gradient(rgba(44, 26, 14, 0.55), rgba(44, 26, 14, 0.55)), url(&quot;assets/site-index-hero-image-1-1778506727787-rg1vfo.webp?v=1778506730748&quot;); background-size: cover; background-position: center center; background-repeat: no-repeat; position: relative; overflow: hidden; min-height: 792.009px !important;" data-zappy-bg-type="image" data-zappy-bg-color="" data-zappy-bg-image="assets/site-index-hero-image-1-1778506727787-rg1vfo.webp?v=1778506730748" data-zappy-bg-overlay-color="#2c1a0e" data-zappy-bg-overlay-opacity="86" data-zappy-bg-video-type="" data-zappy-bg-video-url="">
   <!-- Background Image -->
   <div class="hero-bg-wrapper">
     <div data-zappy-zoom-wrapper="true" data-element-id="img-1778071019135-vt3k3xqyt" data-element-type="image" data-zappy-zoom-wrapper-width-mode="full" style="position: absolute !important; top: 0px !important; left: 0px !important; width: 100% !important; height: 100% !important; max-width: none !important; margin-left: 0px !important; margin-right: 0px !important; z-index: 1 !important; overflow: hidden !important;" data-zappy-zoom-clip="true" data-zappy-wrapper-margins-applied="true" data-zappy-zoom-wrapper-align="center"><img data-hero-bg="true" data-placeholder="index-hero-image-1" data-context="Sun-washed beach lifestyle scene, golden hour light, a woman in elegant refined swimwear standing near sand dunes, soft linen fabric draped nearby, natural textures of sand and sea, warm terracotta and cream tones, editorial boutique fashion photography, cinematic mood, Mediterranean coast, shallow depth of field, serene and feminine atmosphere" width="1200" height="800" src="/assets/site-index-hero-image-1-1778506727787-rg1vfo.webp?v=1778506730748" alt="מודל בבגד ים מעוצב על רקע חוף ים מוזהב" class="hero-bg-img" data-hero-background="true" data-element-type="image" data-element-id="img-1778071019135-vt3k3xqyt" style="object-position: 36% 0% !important; position: absolute !important; margin: 0px !important; left: 0% !important; top: 0% !important; width: 100% !important; height: 100% !important; max-width: none !important; max-height: none !important; display: block !important; object-fit: cover !important;" data-zappy-zoom="1" data-zappy-object-position="36% 0%"></div>
@@ -847,7 +822,7 @@
   </div>
 
   <!-- Content Card -->
-  <div class="hero-content-zone" data-zappy-align-target="true" >
+  <div class="hero-content-zone" data-zappy-align-target="true" style="">
     <div class="hero-card">
       <p style="color: rgb(245, 239, 230) !important;"><span class="hero-label" style="color: rgb(245, 239, 230) !important;">קולקציית הקיץ החדשה</span>
       </p><h1 class="hero-h1" style="color: rgb(245, 239, 230) !important;">בגדי ים שמרגישים כמו חופש&nbsp;</h1>
@@ -912,7 +887,7 @@
       <!-- Card 1 -->
       <article class="index-features-card index-features-card--mid" data-grid-item-index="0">
         <div class="index-features-card-image-wrap">
-          <img data-placeholder="index-features-image-1" data-context="Close-up detail of swimwear fabric showing ruching texture and soft terracotta-toned straps on a warm sandy background, editorial fashion photography, warm natural light, boutique beachwear aesthetic" width="600" height="750" src="/assets/site-index-features-image-1.webp" alt="פרטי בד ועיצוב בבגדי ים של Heatwave" data-element-type="image" data-element-id="img-1778071019135-yzn860yoe" >
+          <img data-placeholder="index-features-image-1" data-context="Close-up detail of swimwear fabric showing ruching texture and soft terracotta-toned straps on a warm sandy background, editorial fashion photography, warm natural light, boutique beachwear aesthetic" width="600" height="750" src="/assets/site-index-features-image-1.webp" alt="פרטי בד ועיצוב בבגדי ים של Heatwave" data-element-type="image" data-element-id="img-1778071019135-yzn860yoe" style="">
         </div>
         <div class="index-features-card-body">
           <div class="index-features-card-accent" aria-hidden="true"></div>
@@ -936,7 +911,7 @@
       <!-- Card 3 -->
       <article class="index-features-card index-features-card--low" data-grid-item-index="2">
         <div class="index-features-card-image-wrap">
-          <img data-placeholder="index-features-image-3" data-context="Woman wearing a stylish swimsuit on the beach at golden hour, relaxed confident pose, warm Mediterranean light, lifestyle fashion photography for swimwear brand, editorial mood" width="600" height="750" src="/assets/site-index-features-image-3.webp" alt="סגנון חופשי ועצמאי עם בגדי ים Heatwave" data-element-type="image" data-element-id="img-1778071019136-c7gi74t7h" >
+          <img data-placeholder="index-features-image-3" data-context="Woman wearing a stylish swimsuit on the beach at golden hour, relaxed confident pose, warm Mediterranean light, lifestyle fashion photography for swimwear brand, editorial mood" width="600" height="750" src="/assets/site-index-features-image-3.webp" alt="סגנון חופשי ועצמאי עם בגדי ים Heatwave" data-element-type="image" data-element-id="img-1778071019136-c7gi74t7h" style="">
         </div>
         <div class="index-features-card-body">
           <div class="index-features-card-accent" aria-hidden="true"></div>
@@ -1237,106 +1212,6 @@
   </a>
   
   <div data-integration="accessibility:toolbar"></div>
-
-    <div class="zppb-overlay" id="zppb-overlay">
-      <div class="zppb-banner">
-        <button class="zppb-close" id="zppb-close">&times;</button>
-        
-        <div class="zppb-content">
-          <h3 class="zppb-h">👙SUMMER SALE 20% OFF👙</h3>
-          <p class="zppb-sub">All products! </p>
-          <div class="zppb-countdown" id="zppb-countdown"><span id="zppb-cd-h">00</span>:<span id="zppb-cd-m">00</span>:<span id="zppb-cd-s">00</span></div>
-          
-          <a href="/products" class="zppb-cta">Shop Now</a>
-        </div>
-      </div>
-    </div>
-<script>
-    (function(){
-      var FREQ = 'once_per_session';
-      var DELAY = 2000;
-      var KEY = 'zppb_4948dc33-8a6d-4988-ae32-2725c25080c3';
-      // Only run on the first URL opened in this tab. Avoids showing the modal again
-      // on every internal navigation when the user leaves before the delay fired on the landing page.
-      if (FREQ !== 'every_visit') {
-        try {
-          var entKey = KEY + '_sess_entry';
-          var curPath = window.location.pathname + window.location.search;
-          var entryPath = sessionStorage.getItem(entKey);
-          if (!entryPath) {
-            sessionStorage.setItem(entKey, curPath);
-            entryPath = curPath;
-          }
-          if (curPath !== entryPath) {
-            return;
-          }
-        } catch (e) {}
-      }
-
-      function shouldShow() {
-        if (document.body && document.body.classList.contains('zappy-edit-mode')) return false;
-        if (FREQ === 'every_visit') return true;
-        if (FREQ === 'once') return !localStorage.getItem(KEY);
-        if (FREQ === 'once_per_session') return !sessionStorage.getItem(KEY);
-        if (FREQ === 'once_per_day') {
-          var last = localStorage.getItem(KEY);
-          if (!last) return true;
-          return (Date.now() - parseInt(last, 10)) > 86400000;
-        }
-        return false;
-      }
-
-      function markShown() {
-        try {
-          if (FREQ === 'once') localStorage.setItem(KEY, '1');
-          else if (FREQ === 'once_per_session') sessionStorage.setItem(KEY, '1');
-          else if (FREQ === 'once_per_day') localStorage.setItem(KEY, String(Date.now()));
-        } catch(e){}
-      }
-
-      function closeBanner() {
-        var ov = document.getElementById('zppb-overlay');
-        if (ov) { ov.classList.remove('zppb-visible'); }
-      }
-
-      function showBanner() {
-        if (!shouldShow()) return;
-        var ov = document.getElementById('zppb-overlay');
-        if (ov) { ov.classList.add('zppb-visible'); markShown(); }
-      }
-
-      
-      function startCountdown() {
-        var end = new Date('2026-05-16T00:00').getTime();
-        function tick() {
-          var diff = Math.max(0, end - Date.now());
-          var h = Math.floor(diff / 3600000);
-          var m = Math.floor((diff % 3600000) / 60000);
-          var s = Math.floor((diff % 60000) / 1000);
-          var eh = document.getElementById('zppb-cd-h');
-          var em = document.getElementById('zppb-cd-m');
-          var es = document.getElementById('zppb-cd-s');
-          if (eh) eh.textContent = String(h).padStart(2, '0');
-          if (em) em.textContent = String(m).padStart(2, '0');
-          if (es) es.textContent = String(s).padStart(2, '0');
-          if (diff > 0) setTimeout(tick, 1000);
-        }
-        tick();
-      }
-      
-
-      
-
-      var closeBtn = document.getElementById('zppb-close');
-      if (closeBtn) closeBtn.addEventListener('click', closeBanner);
-      var overlay = document.getElementById('zppb-overlay');
-      if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) closeBanner(); });
-
-      setTimeout(function() {
-        showBanner();
-        startCountdown();
-      }, DELAY);
-    })();</script>
 
     <script src="/script.js"></script>
 
