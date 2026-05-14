@@ -72,7 +72,19 @@ Information about WCAG compliance and accessibility features.
 
 ## Products
 
-_No products are currently configured._
+**Total active products: 2**
+
+### בגד ים ג'ניפר 
+https://example.com/product/bgd-ym-gnypr-hfhl0h
+- Price: 159.00 ILS (sale, was 190.00 ILS)
+- Availability: In stock
+- Image: https://example.com/assets/image-product-image-1778506898186-diax5m.webp
+
+### בגד ים סופי 
+https://example.com/product/bgd-ym-svpy-7n3qf0
+- Price: 129.00 ILS (sale, was 150.00 ILS)
+- Availability: In stock
+- Image: https://example.com/assets/image-product-image-1778506842098-lv8zeh.webp
 
 ---
 

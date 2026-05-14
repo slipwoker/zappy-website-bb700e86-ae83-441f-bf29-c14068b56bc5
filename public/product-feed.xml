@@ -4,6 +4,32 @@
     <title>Heatwave</title>
     <link>https://example.com</link>
     <description>Product feed for Heatwave</description>
-    <lastBuildDate>Mon, 11 May 2026 13:39:54 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2026 14:29:19 GMT</lastBuildDate>
+    <item>
+      <g:id>7926fb87-0f74-49a7-b02b-d4caa53caef3</g:id>
+      <g:title>בגד ים ג&apos;ניפר </g:title>
+      <g:description>בגד ים ג&apos;ניפר</g:description>
+      <g:link>https://example.com/product/bgd-ym-gnypr-hfhl0h</g:link>
+      <g:image_link>https://example.com/assets/image-product-image-1778506898186-diax5m.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>159.00 ILS</g:price>
+      <g:sale_price>159.00 ILS</g:sale_price>
+      <g:condition>new</g:condition>
+      <g:brand>Heatwave</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+    </item>
+    <item>
+      <g:id>56b108dc-1087-4667-9ad2-897a0a07b251</g:id>
+      <g:title>בגד ים סופי </g:title>
+      <g:description>בגד ים סופי</g:description>
+      <g:link>https://example.com/product/bgd-ym-svpy-7n3qf0</g:link>
+      <g:image_link>https://example.com/assets/image-product-image-1778506842098-lv8zeh.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:price>129.00 ILS</g:price>
+      <g:sale_price>129.00 ILS</g:sale_price>
+      <g:condition>new</g:condition>
+      <g:brand>Heatwave</g:brand>
+      <g:identifier_exists>no</g:identifier_exists>
+    </item>
   </channel>
 </rss>
