@@ -12397,6 +12397,14 @@ main,
     height: 28px;
   }
 }
+
+.index-features-section .index-features-card--top .index-features-card-image-wrap [data-zappy-zoom-wrapper="true"] {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: unset !important;
+  position: absolute !important;
+  inset: 0 !important;
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,
