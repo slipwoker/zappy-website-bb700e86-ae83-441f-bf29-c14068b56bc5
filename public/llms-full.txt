@@ -283,49 +283,6 @@ Description: An online swimwear store focused on selling swimwear products throu
 
 
 
-## כותרת שלך כאן
-
-
-
-
-
-
-### כותרת כרטיס 1
-
-
-טקסט תיאור קצר
-
-
-
-
-
-
-
-### כותרת כרטיס 2
-
-
-טקסט תיאור קצר
-
-
-
-
-
-
-
-### כותרת כרטיס 3
-
-
-טקסט תיאור קצר
-
-
-
-
-
-
-
-
-
-
 
 
 
