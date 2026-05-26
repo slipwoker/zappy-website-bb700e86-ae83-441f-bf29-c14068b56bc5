@@ -1,6 +1,6 @@
 {
   "@context": "https://schema.org",
-  "generated_at": "2026-05-26T11:20:12.478Z",
+  "generated_at": "2026-05-26T11:31:54.363Z",
   "base_url": "https://heatwave.zappy5.app",
   "currency": "ILS",
   "count": 2,
@@ -10,7 +10,6 @@
       "slug": "bgd-ym-gnypr-hfhl0h",
       "name": "בגד ים ג'ניפר ",
       "name_translations": {
-        "en": "Jennifer Swimsuit",
         "he": "בגד ים ג'ניפר "
       },
       "description": "",
@@ -28,14 +27,13 @@
       "stock_status": "in_stock",
       "url": "https://heatwave.zappy5.app/product/bgd-ym-gnypr-hfhl0h",
       "categories": [],
-      "updated_at": "2026-05-26T11:17:58.221Z"
+      "updated_at": "2026-05-26T11:31:18.062Z"
     },
     {
       "id": "56b108dc-1087-4667-9ad2-897a0a07b251",
       "slug": "bgd-ym-svpy-7n3qf0",
       "name": "בגד ים סופי ",
       "name_translations": {
-        "en": "Sophie Swimsuit",
         "he": "בגד ים סופי "
       },
       "description": "",
@@ -53,7 +51,7 @@
       "stock_status": "in_stock",
       "url": "https://heatwave.zappy5.app/product/bgd-ym-svpy-7n3qf0",
       "categories": [],
-      "updated_at": "2026-05-26T11:17:58.221Z"
+      "updated_at": "2026-05-26T11:31:18.062Z"
     }
   ]
 }
