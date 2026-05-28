@@ -4,12 +4,12 @@
     <title>Heatwave</title>
     <link>https://heatwave.zappy5.app</link>
     <description>Product feed for Heatwave</description>
-    <lastBuildDate>Tue, 26 May 2026 11:34:49 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2026 10:44:20 GMT</lastBuildDate>
     <item>
       <g:id>7926fb87-0f74-49a7-b02b-d4caa53caef3</g:id>
       <g:title>בגד ים ג&apos;ניפר </g:title>
       <g:description>בגד ים ג&apos;ניפר</g:description>
-      <g:link>https://heatwave.zappy5.app/product/bgd-ym-gnypr-hfhl0h</g:link>
+      <g:link>https://heatwave.zappy5.app/product/bgd-ym-gnypr-enckdh</g:link>
       <g:image_link>https://heatwave.zappy5.app/assets/image-product-image-1778506898186-diax5m.webp</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:price>190.00 ILS</g:price>
@@ -17,6 +17,7 @@
       <g:condition>new</g:condition>
       <g:brand>Heatwave</g:brand>
       <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>אופנת חוף</g:product_type>
     </item>
     <item>
       <g:id>56b108dc-1087-4667-9ad2-897a0a07b251</g:id>

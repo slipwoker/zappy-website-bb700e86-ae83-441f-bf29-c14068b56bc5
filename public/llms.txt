@@ -75,9 +75,10 @@ Information about WCAG compliance and accessibility features.
 **Total active products: 2**
 
 ### בגד ים ג'ניפר 
-https://heatwave.zappy5.app/product/bgd-ym-gnypr-hfhl0h
+https://heatwave.zappy5.app/product/bgd-ym-gnypr-enckdh
 - Price: 159.00 ILS (sale, was 190.00 ILS)
 - Availability: In stock
+- Category: אופנת חוף
 - Image: https://heatwave.zappy5.app/assets/image-product-image-1778506898186-diax5m.webp
 
 ### בגד ים סופי 
