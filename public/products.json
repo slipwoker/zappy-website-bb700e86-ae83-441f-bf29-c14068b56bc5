@@ -1,10 +1,32 @@
 {
   "@context": "https://schema.org",
-  "generated_at": "2026-06-16T09:59:52.104Z",
+  "generated_at": "2026-06-16T10:00:40.736Z",
   "base_url": "https://heatwave.zappy5.app",
   "currency": "ILS",
-  "count": 2,
+  "count": 3,
   "products": [
+    {
+      "id": "c605e13c-91a8-44b3-9a69-4daf1082fd66",
+      "slug": "bykyny-nvah-ekmnnk",
+      "name": "ביקיני נועה ",
+      "name_translations": {},
+      "description": "",
+      "short_description": null,
+      "sku": null,
+      "brand": null,
+      "price": 190,
+      "base_price": 220,
+      "sale_price": 190,
+      "currency": "ILS",
+      "images": [
+        "https://heatwave.zappy5.app/assets/image-product-image-1781603996412-xbi9yz.webp"
+      ],
+      "in_stock": true,
+      "stock_status": "in_stock",
+      "url": "https://heatwave.zappy5.app/product/bykyny-nvah-ekmnnk",
+      "categories": [],
+      "updated_at": "2026-06-16T10:00:09.423Z"
+    },
     {
       "id": "7926fb87-0f74-49a7-b02b-d4caa53caef3",
       "slug": "bgd-ym-gnypr-ek6mod",
