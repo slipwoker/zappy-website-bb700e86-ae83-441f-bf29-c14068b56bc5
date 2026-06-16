@@ -1,13 +1,13 @@
 {
   "@context": "https://schema.org",
-  "generated_at": "2026-06-16T09:57:27.814Z",
+  "generated_at": "2026-06-16T09:59:02.465Z",
   "base_url": "https://heatwave.zappy5.app",
   "currency": "ILS",
   "count": 2,
   "products": [
     {
       "id": "7926fb87-0f74-49a7-b02b-d4caa53caef3",
-      "slug": "bgd-ym-gnypr-enckdh",
+      "slug": "bgd-ym-gnypr-ek6mod",
       "name": "בגד ים ג'ניפר ",
       "name_translations": {
         "he": "בגד ים ג'ניפר "
@@ -21,17 +21,17 @@
       "sale_price": 159,
       "currency": "ILS",
       "images": [
-        "https://heatwave.zappy5.app/assets/image-product-image-1778506898186-diax5m.webp"
+        "https://heatwave.zappy5.app/assets/image-product-image-1781603891021-ipnphi.webp"
       ],
       "in_stock": true,
       "stock_status": "in_stock",
-      "url": "https://heatwave.zappy5.app/product/bgd-ym-gnypr-enckdh",
+      "url": "https://heatwave.zappy5.app/product/bgd-ym-gnypr-ek6mod",
       "categories": [
         "אופנת חוף",
         "בגד ים שלם ",
         "ברזילאי"
       ],
-      "updated_at": "2026-06-02T12:02:22.074Z"
+      "updated_at": "2026-06-16T09:58:31.070Z"
     },
     {
       "id": "56b108dc-1087-4667-9ad2-897a0a07b251",
