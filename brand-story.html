@@ -161,26 +161,31 @@
       // Track button clicks (counted as actions)
       if (target.tagName === 'BUTTON' || target.closest('button')) {
         var button = target.tagName === 'BUTTON' ? target : target.closest('button');
-        trackEvent('click', {
+        var clickMeta = {
           element: 'button',
           text: button.textContent.trim().substring(0, 100),
           id: button.id || null,
           class: button.className || null
-        });
+        };
+        
+        trackEvent('click', clickMeta);
       }
       
       // Track link clicks (navigation - not counted as actions)
       else if (target.tagName === 'A' || target.closest('a')) {
         var link = target.tagName === 'A' ? target : target.closest('a');
-        trackEvent('navigation', {
+        var navMeta = {
           element: 'link',
           text: link.textContent.trim().substring(0, 100),
           href: link.href,
           external: link.hostname !== window.location.hostname
-        });
+        };
+        
+        trackEvent('navigation', navMeta);
       }
     }, true);
   }
+  
   
   // Track form submissions
   if (config.trackFormSubmissions) {
@@ -1091,44 +1096,6 @@ html[dir="rtl"] body {
 }
 
 </style>
-
-
-    <style id="zappy-announcement-bar-styles">
-    /* Announcement Bar Styles */
-    .zappy-announcement-bar {
-      background-color: #000000 !important;
-      color: #ffffff !important;
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      width: 100% !important;
-      text-align: center !important;
-      padding: 10px 20px !important;
-      font-size: 14px !important;
-      font-weight: 500 !important;
-      line-height: 1.4 !important;
-      box-sizing: border-box !important;
-      z-index: 1001 !important;
-      min-height: 40px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-    }
-    .zappy-announcement-bar .zappy-announcement-message {
-      position: absolute !important;
-      opacity: 0 !important;
-      transition: opacity 0.5s ease-in-out !important;
-      width: 100% !important;
-      left: 0 !important;
-      right: 0 !important;
-      padding: 0 20px !important;
-      box-sizing: border-box !important;
-    }
-    .zappy-announcement-bar .zappy-announcement-message.active {
-      opacity: 1 !important;
-    }
-    </style>
     <link rel="stylesheet" href="/styles.css">
 
     <style id="zappy-dropdown-submenu-styles">
@@ -1220,9 +1187,6 @@ html[dir="rtl"] body {
 </head>
 <body>
 
-<div class="zappy-announcement-bar">
-      <span class="zappy-announcement-message active">3 = 100</span>
-    </div>
 
 
     <div class="mobile-search-panel" id="mobile-search-panel">
@@ -1274,6 +1238,9 @@ html[dir="rtl"] body {
         <!-- Categories will be loaded dynamically -->
       </ul>
     </li>
+  
+
+    
   
 
     
@@ -2082,6 +2049,14 @@ html[dir="rtl"] body {
   <div data-integration="accessibility:toolbar"></div>
 
 
+
+<div class="zappy-qv-overlay" id="zappy-qv-overlay" hidden></div>
+<div class="zappy-qv-modal" id="zappy-qv-modal" role="dialog" aria-modal="true" aria-label="תצוגה מהירה" hidden>
+  <button type="button" class="zappy-qv-close" id="zappy-qv-close" aria-label="סגור">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <div class="zappy-qv-content" id="zappy-qv-content"></div>
+</div>
 
     <script src="/script.js"></script>
 
