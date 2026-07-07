@@ -305,7 +305,9 @@ Description: An online swimwear store focused on selling swimwear products throu
 
 
 
+
 תאריך כניסה *
+
 
 
 
@@ -315,7 +317,9 @@ Description: An online swimwear store focused on selling swimwear products throu
 נא לבחור תאריך כניסה
 
 
+
 תאריך יציאה *
+
 
 
 
@@ -331,12 +335,7 @@ Description: An online swimwear store focused on selling swimwear products throu
 
 
 
-
-
-
-
-שלחו הודעת וואטסאפ
-
+Sending...
 
 
 
