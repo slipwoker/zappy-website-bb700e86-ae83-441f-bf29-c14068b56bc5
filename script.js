@@ -11310,6 +11310,58 @@ async function loadRelatedProducts(currentProduct, t) {
     }
   })();
 
+/* Added Component Script */
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('booking-form');
+  const phoneNumber = '972546556225';
+  
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('guest-name').value.trim();
+    const phone = document.getElementById('guest-phone').value.trim();
+    const email = document.getElementById('guest-email').value.trim();
+    const checkIn = document.getElementById('check-in').value;
+    const checkOut = document.getElementById('check-out').value;
+    const guests = document.getElementById('guest-count').value;
+    const notes = document.getElementById('guest-notes').value.trim();
+    
+    if (!name || !phone || !email || !checkIn || !checkOut || !guests) {
+      alert('נא למלא את כל שדות החובה המסומנים בכוכבית.');
+      return;
+    }
+    
+    let message = 'היי Heatwave!%0A%0A';
+    message += 'פרטי הזמנה חדשה:%0A';
+    message += '👤 שם: ' + encodeURIComponent(name) + '%0A';
+    message += '📞 טלפון: ' + encodeURIComponent(phone) + '%0A';
+    message += '📧 אימייל: ' + encodeURIComponent(email) + '%0A';
+    message += '📅 תאריך כניסה: ' + encodeURIComponent(checkIn) + '%0A';
+    message += '📅 תאריך יציאה: ' + encodeURIComponent(checkOut) + '%0A';
+    message += '👥 מספר אורחים: ' + encodeURIComponent(guests) + '%0A';
+    if (notes) {
+      message += '📝 הערות: ' + encodeURIComponent(notes) + '%0A';
+    }
+    message += '%0Aאשמח לקבל הצעת מחיר 🙂';
+    
+    const whatsappUrl = 'https://wa.me/' + phoneNumber + '?text=' + message;
+    window.open(whatsappUrl, '_blank');
+  });
+  
+  const checkInInput = document.getElementById('check-in');
+  const checkOutInput = document.getElementById('check-out');
+  
+  const today = new Date().toISOString().split('T')[0];
+  checkInInput.setAttribute('min', today);
+  
+  checkInInput.addEventListener('change', function() {
+    checkOutInput.setAttribute('min', this.value);
+    if (checkOutInput.value && checkOutInput.value < this.value) {
+      checkOutInput.value = '';
+    }
+  });
+});
+
 
 /* ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 (function(){
