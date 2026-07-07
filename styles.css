@@ -17275,6 +17275,516 @@ main,
     display: none;
   }
 }
+
+/* Added Component Styles */
+/* ===== Heatwave Club Section ===== */
+.heatwave-club {
+  background: #faf8f5;
+  padding: 80px 20px;
+  direction: rtl;
+  font-family: system-ui, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.heatwave-club::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: -60px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(201, 106, 74, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.heatwave-club::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(201, 106, 74, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.club-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Text Content ===== */
+.club-text {
+  max-width: 520px;
+}
+
+.club-badge {
+  display: inline-block;
+  background: var(--gradient-primary, linear-gradient(135deg, #C4763A 0%, #8B5E3C 100%));
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.club-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #2c1810;
+  margin: 0 0 16px 0;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+}
+
+.club-description {
+  font-size: 1.1rem;
+  color: #5a4a42;
+  line-height: 1.7;
+  margin: 0 0 24px 0;
+}
+
+/* ===== Benefits List ===== */
+.club-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  color: #3d2e27;
+  font-weight: 500;
+}
+
+.benefit-icon {
+  flex-shrink: 0;
+  color: var(--primary, #C96A4A);
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== Form Wrapper ===== */
+.club-form-wrapper {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(201, 106, 74, 0.12);
+  transition: box-shadow 0.3s ease;
+}
+
+.club-form-wrapper:hover {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.09), 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Form Elements ===== */
+.club-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.form-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #3d2e27;
+  margin: 0;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e8e0da;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: system-ui, sans-serif;
+  color: #2c1810;
+  background: #fdfbf9;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: #b8a99e;
+}
+
+.form-input:focus {
+  border-color: var(--primary, #C96A4A);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(201, 106, 74, 0.08);
+}
+
+.form-input:invalid:not(:placeholder-shown):not(:focus) {
+  border-color: #e05555;
+  background: #fffafa;
+}
+
+/* ===== Checkbox Group ===== */
+.form-group-checkbox {
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #5a4a42;
+  line-height: 1.5;
+  user-select: none;
+}
+
+.form-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.checkbox-custom {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: 2px solid #d4c8bf;
+  border-radius: 6px;
+  background: #fdfbf9;
+  transition: all 0.2s ease;
+  position: relative;
+  margin-top: 1px;
+}
+
+.checkbox-custom::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 6px;
+  height: 11px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.form-checkbox:checked + .checkbox-custom {
+  background: var(--primary, #C96A4A);
+  border-color: var(--primary, #C96A4A);
+}
+
+.form-checkbox:checked + .checkbox-custom::after {
+  opacity: 1;
+}
+
+.form-checkbox:focus-visible + .checkbox-custom {
+  box-shadow: 0 0 0 4px rgba(201, 106, 74, 0.15);
+  border-color: var(--primary, #C96A4A);
+}
+
+.checkbox-text {
+  font-size: 0.9rem;
+  color: #5a4a42;
+}
+
+/* ===== Error Messages ===== */
+.form-error {
+  font-size: 0.8rem;
+  color: #d14343;
+  display: none;
+  margin: 0;
+  font-weight: 500;
+}
+
+.form-input:invalid:not(:placeholder-shown):not(:focus) ~ .form-error,
+.form-checkbox:invalid ~ .form-error {
+  display: block;
+}
+
+/* Show error for checkbox when form is submitted and invalid */
+.club-form.submitted .form-checkbox:invalid ~ .form-error {
+  display: block;
+}
+
+.club-form.submitted .form-input:invalid ~ .form-error {
+  display: block;
+}
+
+.club-form.submitted .form-input:invalid {
+  border-color: #e05555;
+  background: #fffafa;
+}
+
+.club-form.submitted .form-checkbox:invalid + .checkbox-custom {
+  border-color: #e05555;
+}
+
+/* ===== Submit Button ===== */
+.form-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--gradient-primary, linear-gradient(135deg, #C4763A 0%, #8B5E3C 100%));
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: system-ui, sans-serif;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(201, 106, 74, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.form-submit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.form-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(201, 106, 74, 0.35);
+}
+
+.form-submit:hover::before {
+  opacity: 1;
+}
+
+.form-submit:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(201, 106, 74, 0.3);
+}
+
+.form-submit:focus-visible {
+  outline: 3px solid rgba(201, 106, 74, 0.5);
+  outline-offset: 3px;
+}
+
+.form-submit svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.form-submit:hover svg {
+  transform: translateX(-4px);
+}
+
+/* ===== Form Note ===== */
+.form-note {
+  font-size: 0.78rem;
+  color: #9b8b80;
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.form-link {
+  color: var(--primary, #C96A4A);
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.form-link:hover {
+  color: #8B5E3C;
+}
+
+/* ===== Success State ===== */
+.form-success {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.form-success[hidden] {
+  display: none;
+}
+
+.success-icon {
+  color: #4caf50;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 16px;
+}
+
+.success-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2c1810;
+  margin: 0 0 8px 0;
+}
+
+.success-text {
+  font-size: 1rem;
+  color: #5a4a42;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ===== Image ===== */
+.club-image-wrapper {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+.club-image {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px;
+  transition: transform 0.4s ease;
+}
+
+.club-image-wrapper:hover .club-image {
+  transform: scale(1.03);
+}
+
+.club-image-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(44, 24, 16, 0.25) 100%);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .club-container {
+    gap: 36px;
+  }
+  
+  .club-title {
+    font-size: 2rem;
+  }
+  
+  .club-form-wrapper {
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heatwave-club {
+    padding: 60px 16px;
+  }
+  
+  .club-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .club-text {
+    max-width: 100%;
+    text-align: center;
+  }
+  
+  .club-benefits {
+    align-items: center;
+  }
+  
+  .benefit-item {
+    justify-content: center;
+  }
+  
+  .club-title {
+    font-size: 1.8rem;
+  }
+  
+  .club-description {
+    font-size: 1rem;
+  }
+  
+  .club-form-wrapper {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+  
+  .club-image-wrapper {
+    order: -1;
+    max-height: 300px;
+  }
+  
+  .club-image {
+    min-height: 300px;
+    max-height: 300px;
+  }
+  
+  .form-submit {
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heatwave-club {
+    padding: 40px 12px;
+  }
+  
+  .club-title {
+    font-size: 1.5rem;
+  }
+  
+  .club-form-wrapper {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+  
+  .form-input {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+  
+  .club-badge {
+    font-size: 0.78rem;
+    padding: 5px 14px;
+  }
+  
+  .club-image {
+    min-height: 240px;
+    max-height: 240px;
+  }
+}
 /* mobile-submenu-overflow-fix */
 @media (max-width: 768px) {
   .navbar .sub-menu.mobile-expanded,

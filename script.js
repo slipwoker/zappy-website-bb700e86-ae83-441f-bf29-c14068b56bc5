@@ -11222,6 +11222,94 @@ async function loadRelatedProducts(currentProduct, t) {
     });
   })();
 
+/* Added Component Script */
+(function() {
+    const form = document.querySelector('.club-form');
+    const formWrapper = document.querySelector('.club-form-wrapper');
+    const formElement = form;
+    const successMessage = document.querySelector('.form-success');
+    const phoneInput = document.getElementById('club-phone');
+    
+    // Phone number formatting (Israeli format)
+    if (phoneInput) {
+      phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 10) value = value.slice(0, 10);
+        
+        if (value.length > 3 && value.length <= 6) {
+          value = value.slice(0, 3) + '-' + value.slice(3);
+        } else if (value.length > 6) {
+          value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6);
+        }
+        
+        e.target.value = value;
+      });
+    }
+    
+    // Form submission
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Add submitted class to trigger validation display
+        form.classList.add('submitted');
+        
+        // Check validity
+        const isValid = form.checkValidity();
+        
+        if (isValid) {
+          // Simulate submission
+          const submitBtn = form.querySelector('.form-submit');
+          const originalText = submitBtn.innerHTML;
+          
+          submitBtn.innerHTML = '<span>שולחת...</span>';
+          submitBtn.disabled = true;
+          
+          setTimeout(function() {
+            // Show success
+            form.style.display = 'none';
+            successMessage.removeAttribute('hidden');
+            
+            // Reset for demo purposes (in production, this would be an AJAX call)
+            setTimeout(function() {
+              form.reset();
+              form.classList.remove('submitted');
+              form.style.display = '';
+              successMessage.setAttribute('hidden', '');
+              submitBtn.innerHTML = originalText;
+              submitBtn.disabled = false;
+            }, 5000);
+          }, 1500);
+        } else {
+          // Focus first invalid field
+          const firstInvalid = form.querySelector(':invalid');
+          if (firstInvalid) {
+            firstInvalid.focus();
+          }
+        }
+      });
+      
+      // Remove error styling when user types
+      form.querySelectorAll('.form-input').forEach(function(input) {
+        input.addEventListener('input', function() {
+          if (input.validity.valid) {
+            input.style.borderColor = '';
+            input.style.background = '';
+          }
+        });
+      });
+      
+      form.querySelector('.form-checkbox')?.addEventListener('change', function() {
+        if (this.validity.valid) {
+          const customCheckbox = this.nextElementSibling;
+          if (customCheckbox) {
+            customCheckbox.style.borderColor = '';
+          }
+        }
+      });
+    }
+  })();
+
 
 /* ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 (function(){
