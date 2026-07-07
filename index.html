@@ -1785,169 +1785,17 @@ html[dir="rtl"] body {
   <!-- Bottom paper-ripple divider -->
   <div class="index-features-divider-wrapper">
     <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,80 L0,38 Q60,28 120,38 T240,32 Q300,38 360,28 T480,34 Q540,28 600,36 T720,30 Q780,36 840,28 T960,34 Q1020,28 1080,36 T1200,30 Q1260,36 1320,28 T1440,34 L1440,80 Z" fill="#faf7f4"></path>
-      <path d="M0,80 L0,48 Q60,42 120,50 T240,44 Q300,50 360,42 T480,48 Q540,42 600,50 T720,44 Q780,50 840,42 T960,48 Q1020,42 1080,50 T1200,44 Q1260,50 1320,42 T1440,48 L1440,80 Z" fill="#faf7f4" opacity="0.6"></path>
+      <path d="M0,80 L0,38 Q60,28 120,38 T240,32 Q300,38 360,28 T480,34 Q540,28 600,36 T720,30 Q780,36 840,28 T960,34 Q1020,28 1080,36 T1200,30 Q1260,36 1320,28 T1440,34 L1440,80 Z" fill="#1A0E06"></path>
+      <path d="M0,80 L0,48 Q60,42 120,50 T240,44 Q300,50 360,42 T480,48 Q540,42 600,50 T720,44 Q780,50 840,42 T960,48 Q1020,42 1080,50 T1200,44 Q1260,50 1320,42 T1440,48 L1440,80 Z" fill="#1A0E06" opacity="0.6"></path>
     </svg>
   </div>
 </section>
 
-<section class="hw-booking-section" aria-labelledby="booking-heading" data-zappy-component="true" id="ai-section-1783412016436-00nr0ao">
-  <div class="hw-booking-container">
-    <div class="hw-booking-header">
-      <span class="hw-booking-badge">הזמינו עכשיו</span>
-      <h2 id="booking-heading" class="hw-booking-title">טופס הזמנה – Heatwave</h2>
-      <p class="hw-booking-subtitle">מלאו את הפרטים ונחזור אליכם בהקדם עם הצעת מחיר משתלמת</p>
-    </div>
-    <form class="hw-booking-form" id="booking-form" novalidate="">
-      <div class="hw-form-row">
-        <div class="hw-form-group">
-          <label for="guest-name" class="hw-form-label">שם מלא *</label>
-          <input type="text" id="guest-name" name="guest-name" class="hw-form-input" placeholder="ישראל ישראלי" required="" aria-required="true">
-        </div>
-        <div class="hw-form-group">
-          <label for="guest-phone" class="hw-form-label">טלפון *</label>
-          <input type="tel" id="guest-phone" name="guest-phone" class="hw-form-input" placeholder="050-1234567" required="" aria-required="true" pattern="[0-9\-+\s]{9,15}">
-        </div>
-      </div>
-      <div class="hw-form-row">
-        <div class="hw-form-group">
-          <label for="guest-email" class="hw-form-label">אימייל *</label>
-          <input type="email" id="guest-email" name="guest-email" class="hw-form-input" placeholder="israel@example.com" required="" aria-required="true">
-        </div>
-        <div class="hw-form-group">
-          <label for="guest-count" class="hw-form-label">מספר אורחים *</label>
-          <select id="guest-count" name="guest-count" class="hw-form-input hw-form-select" required="" aria-required="true">
-            <option value="" disabled="" selected="">בחרו מספר אורחים</option>
-            <option value="1">1 אורח</option>
-            <option value="2">2 אורחים</option>
-            <option value="3">3 אורחים</option>
-            <option value="4">4 אורחים</option>
-            <option value="5">5 אורחים</option>
-            <option value="6">6 אורחים</option>
-            <option value="7">7 אורחים</option>
-            <option value="8">8 אורחים</option>
-            <option value="9">9 אורחים</option>
-            <option value="10+">10+ אורחים</option>
-          </select>
-        </div>
-      </div>
-      <div class="hw-form-row">
-        <div class="hw-form-group">
-          <label for="check-in" class="hw-form-label">תאריך כניסה *</label>
-          <input type="date" id="check-in" name="check-in" class="hw-form-input" required="" aria-required="true">
-        </div>
-        <div class="hw-form-group">
-          <label for="check-out" class="hw-form-label">תאריך יציאה *</label>
-          <input type="date" id="check-out" name="check-out" class="hw-form-input" required="" aria-required="true">
-        </div>
-      </div>
-      <div class="hw-form-group hw-form-group-full">
-        <label for="guest-notes" class="hw-form-label">הערות</label>
-        <textarea id="guest-notes" name="guest-notes" class="hw-form-input hw-form-textarea" placeholder="בקשות מיוחדות, העדפות או כל דבר נוסף שתרצו שנדע..." rows="4"></textarea>
-      </div>
-      <button type="submit" class="hw-form-submit" id="whatsapp-submit">
-        <span class="hw-whatsapp-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
-          </svg>
-        </span>
-        שלחו הודעת וואטסאפ
-      </button>
-    </form>
-  </div>
-  <div class="hw-booking-decoration" aria-hidden="true">
-    <div class="hw-booking-image-wrapper">
-      <img data-placeholder="booking-section-beach" data-context="Beautiful tropical beach with turquoise water and palm trees, perfect for a swimwear brand" src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27600%27 height=%27800%27%3E%3Cdefs%3E%3ClinearGradient id=%27grad%27 x1=%270%25%27 y1=%270%25%27 x2=%27100%25%27 y2=%27100%25%27%3E%3Cstop offset=%270%25%27 style=%27stop-color:%23FF0083;stop-opacity:1%27 /%3E%3Cstop offset=%27100%25%27 style=%27stop-color:%23FF008320;stop-opacity:1%27 /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27url(%23grad)%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 font-family=%27Arial, sans-serif%27 font-size=%2716%27 fill=%27white%27 text-anchor=%27middle%27 dy=%27.3em%27 font-weight=%27500%27%3EClick%20to%20add%20image%3C/text%3E%3C/svg%3E" alt="חוף טרופי – Heatwave" class="hw-booking-image">
-    </div>
-  </div>
-</section>
 
 
 
-<section class="heatwave-club" aria-labelledby="club-heading" data-zappy-component="true" id="ai-section-1783409347382-ixlv3iz">
-  <div class="club-container">
-    <div class="club-content">
-      <div class="club-text">
-        <span class="club-badge">מועדון לקוחות</span>
-        <h2 id="club-heading" class="club-title">הצטרפי למועדון Heatwave</h2>
-        <p class="club-description">
-          קבלי עדכונים על קולקציות חדשות, הטבות בלעדיות ומבצעים שווים לפני כולן.
-          הצטרפי עכשיו וקבלי 15% הנחה על הקנייה הראשונה!
-        </p>
-        <ul class="club-benefits">
-          <li class="benefit-item">
-            <svg class="benefit-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-            <span>הנחת הצטרפות מיידית של 15%</span>
-          </li>
-          <li class="benefit-item">
-            <svg class="benefit-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-            <span>גישה מוקדמת לקולקציות חדשות</span>
-          </li>
-          <li class="benefit-item">
-            <svg class="benefit-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-            <span>מבצעים בלעדיים לחברות המועדון</span>
-          </li>
-        </ul>
-      </div>
-      <div class="club-form-wrapper" role="form" aria-label="טופס הרשמה למועדון לקוחות">
-        <form class="club-form" novalidate="">
-          <div class="form-group">
-            <label for="club-name" class="form-label">שם מלא *</label>
-            <input type="text" id="club-name" name="fullName" class="form-input" required="" placeholder="הזיני שם מלא" autocomplete="name" dir="rtl">
-            <span class="form-error" aria-live="polite">שדה חובה - נא להזין שם מלא</span>
-          </div>
-          <div class="form-group">
-            <label for="club-phone" class="form-label">טלפון *</label>
-            <input type="tel" id="club-phone" name="phone" class="form-input" required="" placeholder="050-0000000" autocomplete="tel" dir="ltr">
-            <span class="form-error" aria-live="polite">שדה חובה - נא להזין מספר טלפון תקין</span>
-          </div>
-          <div class="form-group">
-            <label for="club-email" class="form-label">דוא״ל *</label>
-            <input type="email" id="club-email" name="email" class="form-input" required="" placeholder="your@email.com" autocomplete="email" dir="ltr">
-            <span class="form-error" aria-live="polite">שדה חובה - נא להזין כתובת דוא״ל תקינה</span>
-          </div>
-          <div class="form-group form-group-checkbox">
-            <label class="checkbox-label" for="club-marketing">
-              <input type="checkbox" id="club-marketing" name="marketingConsent" class="form-checkbox" required="">
-              <span class="checkbox-custom" aria-hidden="true"></span>
-              <span class="checkbox-text">אני מאשר/ת קבלת דיוור שיווקי ועדכונים מ-Heatwave *</span>
-            </label>
-            <span class="form-error" aria-live="polite">יש לאשר קבלת דיוור שיווקי</span>
-          </div>
-          <button type="submit" class="form-submit">
-            <span>הצטרפי עכשיו</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
-          </button>
-          <p class="form-note">
-            * כל השדות חובה. בכניסה למועדון את מאשרת את
-            <a href="#" class="form-link">תנאי השימוש</a>
-            ו
-            <a href="#" class="form-link">מדיניות הפרטיות</a>
-          </p>
-        </form>
-        <div class="form-success" aria-live="assertive" hidden="">
-          <svg class="success-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"></circle>
-            <path d="M8 12L11 15L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-          <h3 class="success-title">תודה שהצטרפת!</h3>
-          <p class="success-text">קוד ההטבה שלך נשלח למייל. ממליצות לבדוק גם בתיבת הספאם.</p>
-        </div>
-      </div>
-    </div>
-    <div class="club-image-wrapper" aria-hidden="true">
-      <img data-placeholder="club-lifestyle-1" data-context="אישה צעירה בחוף הים לובשת בגד ים אלגנטי, אווירת קיץ שמחה, שמש זהובה, גלים עדינים, צילום אופנת חוף מקצועי" src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27600%27 height=%27500%27%3E%3Cdefs%3E%3ClinearGradient id=%27grad%27 x1=%270%25%27 y1=%270%25%27 x2=%27100%25%27 y2=%27100%25%27%3E%3Cstop offset=%270%25%27 style=%27stop-color:%23FF0083;stop-opacity:1%27 /%3E%3Cstop offset=%27100%25%27 style=%27stop-color:%23FF008320;stop-opacity:1%27 /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27url(%23grad)%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 font-family=%27Arial, sans-serif%27 font-size=%2718%27 fill=%27white%27 text-anchor=%27middle%27 dy=%27.3em%27 font-weight=%27500%27%3EClick%20to%20add%20image%3C/text%3E%3C/svg%3E" alt="בגד ים Heatwave - הצטרפי למועדון" class="club-image">
-    </div>
-  </div>
-</section>
+
+
 
 
 
