@@ -1896,9 +1896,53 @@ function stripHtmlToText(html) {
     localStorage.setItem('zappy_cart_' + websiteId, JSON.stringify(cart));
     updateCartCount();
     renderCartDrawer(); // Keep drawer in sync
+    ensureCartDiscountDataLoadedForCart();
   }
   
-  function updateCartCount() {
+  
+
+  var cartDiscountDataLoadPromise = null;
+  var cartDiscountDataLoaded = false;
+  var cartDiscountCustomerTokenLoaded = '';
+  function ensureCartDiscountDataLoadedForCart() {
+    if (!Array.isArray(cart) || cart.length === 0) return Promise.resolve();
+    var customerToken = '';
+    try { customerToken = localStorage.getItem('zappy_customer_token_' + websiteId) || ''; } catch (e) {}
+    var customerDiscountInSync = customerToken
+      ? (cartDiscountCustomerTokenLoaded === customerToken)
+      : (!cartDiscountCustomerTokenLoaded);
+    if (cartDiscountDataLoaded && customerDiscountInSync) return Promise.resolve();
+    if (cartDiscountDataLoadPromise) return cartDiscountDataLoadPromise;
+
+    var tasks = [];
+    if (!cartDiscountDataLoaded) {
+      tasks.push(fetchSeasonalDiscounts());
+      tasks.push(fetchQuantityBundles());
+    }
+    if (customerToken && cartDiscountCustomerTokenLoaded !== customerToken) {
+      tasks.push(fetchCustomerDiscount());
+    } else if (!customerToken && cartDiscountCustomerTokenLoaded) {
+      tasks.push(fetchCustomerDiscount());
+    }
+
+    cartDiscountDataLoadPromise = Promise.allSettled(tasks).then(function() {
+      cartDiscountDataLoaded = true;
+      if (customerToken) {
+        cartDiscountCustomerTokenLoaded = customerToken;
+      } else {
+        cartDiscountCustomerTokenLoaded = '';
+      }
+      updateCartDrawerSummary();
+      if (typeof updateOrderTotals === 'function' &&
+          (document.getElementById('order-items') || document.getElementById('subtotal'))) {
+        updateOrderTotals();
+      }
+    }).finally(function() {
+      cartDiscountDataLoadPromise = null;
+    });
+    return cartDiscountDataLoadPromise;
+  }
+function updateCartCount() {
     // Count distinct cart entries (not sum of quantities) so unit-based items count as 1 each
     const count = cart.length;
     // Update all cart count badges (our injected one and any existing ones)
@@ -5785,8 +5829,7 @@ function stripHtmlToText(html) {
       const searchQuery = urlParams.get('search');
       if (searchQuery) {
         input.value = searchQuery;
-        // Filter products grid based on search
-        filterProductsGrid(searchQuery);
+        // Search filtering is handled by loadProductsWithFilter via the storefront API.
       }
     }
   }
@@ -7465,11 +7508,13 @@ function stripHtmlToText(html) {
   function initAll() {
     tryMagicLoginFromUrl();
     updateCartCount();
-    loadProducts();
+    if (shouldLoadProductsOnBoot()) loadProducts();
     initFilterButtons();
     renderCart();
-    loadShippingMethods();
-    loadPaymentMethods();
+    if (shouldLoadCheckoutDataOnBoot()) {
+      loadShippingMethods();
+      loadPaymentMethods();
+    }
     updateOrderTotals();
     initSearch();
     initMobileSearch();
@@ -7479,14 +7524,57 @@ function stripHtmlToText(html) {
     initCartDrawer();
     initCheckout();
     initCoupon();
-    fetchSeasonalDiscounts();
-    fetchQuantityBundles();
-    fetchCustomerDiscount();
+    if (shouldLoadCartDiscountDataOnBoot()) {
+      fetchSeasonalDiscounts();
+      fetchQuantityBundles();
+    }
+    if (shouldFetchCustomerDiscountOnBoot()) {
+      fetchCustomerDiscount();
+    }
     initOrderSuccess();
     initLogin();
     initAccount();
     updateHeaderAuthState();
   }
+
+  function hasCartItemsOnBoot() {
+    return Array.isArray(cart) && cart.length > 0;
+  }
+
+  function shouldLoadProductsOnBoot() {
+    return !!document.getElementById('zappy-product-grid');
+  }
+
+  function shouldLoadCheckoutDataOnBoot() {
+    return !!(
+      document.getElementById('shipping-methods') ||
+      document.getElementById('payment-container') ||
+      document.getElementById('place-order-btn')
+    );
+  }
+
+  function hasProductPricingGridOnBoot() {
+    return !!(
+      document.getElementById('zappy-product-grid') ||
+      document.getElementById('zappy-featured-products') ||
+      document.getElementById('zappy-category-products') ||
+      document.getElementById('product-detail')
+    );
+  }
+
+  function shouldLoadCartDiscountDataOnBoot() {
+    return hasCartItemsOnBoot() ||
+      shouldLoadCheckoutDataOnBoot() ||
+      hasProductPricingGridOnBoot();
+  }
+
+  function shouldFetchCustomerDiscountOnBoot() {
+    var token = '';
+    try { token = localStorage.getItem('zappy_customer_token_' + websiteId) || ''; } catch (e) {}
+    if (!token) return false;
+    return shouldLoadCartDiscountDataOnBoot();
+  }
+
   
   // Add categories submenu to Products link in mobile menu
   function initMobileCategoriesSubmenu() {
@@ -7512,11 +7600,12 @@ function stripHtmlToText(html) {
     if (categories.length === 0) {
       const websiteId = window.ZAPPY_WEBSITE_ID;
       if (websiteId) {
-        fetch(buildApiUrl('/api/ecommerce/' + websiteId + '/categories'))
+        fetch(buildApiUrlWithLang('/api/ecommerce/storefront/categories?websiteId=' + websiteId))
           .then(function(r) { return r.json(); })
           .then(function(data) {
-            if (data.categories && data.categories.length > 0) {
-              categories = data.categories.map(function(c) {
+            var categoryRows = Array.isArray(data.data) ? data.data : (Array.isArray(data.categories) ? data.categories : []);
+            if (categoryRows.length > 0) {
+              categories = categoryRows.map(function(c) {
                 // Use SEO-friendly slug URL, fallback to id for backward compatibility
                 return { name: c.name, href: buildStorefrontPath('/category/' + (c.slug || c.id)) };
               });
@@ -11641,11 +11730,11 @@ document.addEventListener('DOMContentLoaded', function() {
 /* END ZAPPY_PUBLISHED_LIGHTBOX_RUNTIME */
 
 
-/* ZAPPY_PUBLISHED_ZOOM_WRAPPER_RUNTIME_V2 */
+/* ZAPPY_PUBLISHED_ZOOM_WRAPPER_RUNTIME_V3 */
 (function(){
   try {
-    if (window.__zappyPublishedZoomInitV2) return;
-    window.__zappyPublishedZoomInitV2 = true;
+    if (window.__zappyPublishedZoomInitV3) return;
+    window.__zappyPublishedZoomInitV3 = true;
 
     function isHeroBgWrapper(wrapper) {
       var img = wrapper.querySelector('img');
@@ -11677,6 +11766,27 @@ document.addEventListener('DOMContentLoaded', function() {
       return { w: 100, h: (contA / imgA) * 100 };
     }
 
+    var IMAGE_SLOT_CLASS_TOKENS = ['image-wrap', 'image-tile', 'image-slot', 'card-image', 'card-media', 'media-wrap', 'portrait-wrap'];
+    function classNameHasImageSlotMarker(className) {
+      var raw = (className || '').toString().toLowerCase();
+      if (!raw.trim()) return false;
+      var classes = raw.split(/\s+/);
+      for (var c = 0; c < classes.length; c++) {
+        var segments = classes[c].split(/[^a-z0-9]+/).filter(function(s) { return !!s; });
+        for (var t = 0; t < IMAGE_SLOT_CLASS_TOKENS.length; t++) {
+          var tokenParts = IMAGE_SLOT_CLASS_TOKENS[t].split('-');
+          for (var i = 0; i <= segments.length - tokenParts.length; i++) {
+            var match = true;
+            for (var j = 0; j < tokenParts.length; j++) {
+              if (segments[i + j] !== tokenParts[j]) { match = false; break; }
+            }
+            if (match) return true;
+          }
+        }
+      }
+      return false;
+    }
+
     function normalizeInsertedZoomParent(wrapper) {
       try {
         var parent = wrapper && wrapper.parentElement;
@@ -11691,6 +11801,46 @@ document.addEventListener('DOMContentLoaded', function() {
         parent.style.setProperty('max-height', 'none', 'important');
         parent.setAttribute('data-zappy-inserted-zoom-parent-normalized', '1');
       } catch (_e) {}
+    }
+
+    function findImageSlotContainerForZoomWrapper(wrapper, maxWalk) {
+      try {
+        if (!wrapper || !wrapper.parentElement) return null;
+        var node = wrapper.parentElement;
+        for (var walk = 0; walk < (maxWalk || 4) && node && node !== document.body; walk++) {
+          var nodeClass = (node.className || '').toString();
+          if (classNameHasImageSlotMarker(nodeClass)) return node;
+
+          var nodeCS = window.getComputedStyle(node);
+          var rawClass = (node.className || '').toString();
+          var isThinAnchor = node.tagName === 'A' && nodeCS && nodeCS.display === 'contents';
+          var isUnclassedDiv = node.tagName === 'DIV' && !rawClass.trim();
+          var isInsertedEl = / zappy-inserted-element |^zappy-inserted-element | zappy-inserted-element$|^zappy-inserted-element$/.test(' ' + rawClass + ' ');
+          if (!(isThinAnchor || isUnclassedDiv || isInsertedEl)) break;
+          node = node.parentElement;
+        }
+      } catch (_e) {}
+      return null;
+    }
+
+    function hasSyncedDecorativeImageFrame(wrapper) {
+      try {
+        if (!wrapper) return false;
+        var node = wrapper.parentElement;
+        for (var walk = 0; walk < 4 && node && node !== document.body; walk++) {
+          if (node.getAttribute && node.getAttribute('data-zappy-image-frame-synced') === 'true') {
+            return true;
+          }
+          var nodeCS = window.getComputedStyle(node);
+          var rawClass = (node.className || '').toString();
+          var isThinAnchor = node.tagName === 'A' && nodeCS && nodeCS.display === 'contents';
+          var isUnclassedDiv = node.tagName === 'DIV' && !rawClass.trim();
+          var isInsertedEl = / zappy-inserted-element |^zappy-inserted-element | zappy-inserted-element$|^zappy-inserted-element$/.test(' ' + rawClass + ' ');
+          if (!(isThinAnchor || isUnclassedDiv || isInsertedEl)) break;
+          node = node.parentElement;
+        }
+      } catch (_e) {}
+      return false;
     }
 
     // FULL-BLEED FIRST-CHILD MEDIA: when the wrapper's parent (the image-wrap)
@@ -11712,8 +11862,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var slotForBleed = null;
         var slotNode = wrapper.parentElement;
         for (var slotWalk = 0; slotWalk < 4 && slotNode && slotNode !== document.body; slotWalk++) {
-          var slotNodeClass = (slotNode.className || '').toString().toLowerCase();
-          if (/(image-wrap|image-tile|image-slot|card-image|card-media|media-wrap|portrait-wrap)/.test(slotNodeClass)) {
+          var slotNodeClass = (slotNode.className || '').toString();
+          if (classNameHasImageSlotMarker(slotNodeClass)) {
             slotForBleed = slotNode;
             break;
           }
@@ -11791,6 +11941,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!wrapper || isHeroBgWrapper(wrapper)) return;
         var widthMode = wrapper.getAttribute('data-zappy-zoom-wrapper-width-mode');
         if (widthMode === 'full') return;
+        var forceCardSlotFill = widthMode === 'card-slot' || wrapper.getAttribute('data-zappy-card-slot-fill') === '1';
+        if (hasSyncedDecorativeImageFrame(wrapper)) return;
         // Walk UP through editor-injected / "thin" wrappers to find the real
         // visual image-slot container. We tolerate at most 3 levels of:
         //   - <a style="display:contents">           (editor link wrap)
@@ -11799,8 +11951,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var node = wrapper.parentElement;
         var slotEl = null;
         for (var walk = 0; walk < 3 && node && node !== document.body; walk++) {
-          var nodeClass = (node.className || '').toString().toLowerCase();
-          if (/(image-wrap|image-tile|image-slot|card-image|card-media|media-wrap|portrait-wrap)/.test(nodeClass)) {
+          var nodeClass = (node.className || '').toString();
+          if (classNameHasImageSlotMarker(nodeClass)) {
             slotEl = node;
             break;
           }
@@ -11813,6 +11965,18 @@ document.addEventListener('DOMContentLoaded', function() {
           node = node.parentElement;
         }
         if (!slotEl) {
+          if (forceCardSlotFill) {
+            var forcedSW = parseFloat(wrapper.getAttribute('data-zappy-zoom-wrapper-width')) || 0;
+            var forcedSH = parseFloat(wrapper.getAttribute('data-zappy-zoom-wrapper-height')) || 0;
+            wrapper.style.setProperty('width', '100%', 'important');
+            wrapper.style.setProperty('max-width', '100%', 'important');
+            wrapper.style.setProperty('padding-bottom', '0', 'important');
+            if (forcedSW > 0 && forcedSH > 0) {
+              wrapper.style.setProperty('aspect-ratio', forcedSW + '/' + forcedSH, 'important');
+              wrapper.style.setProperty('height', 'auto', 'important');
+            }
+            wrapper.setAttribute('data-zappy-card-slot-fill', '1');
+          }
           // No image-slot found. Check if the walk stopped at a card-like
           // container and the saved width fills most of the card — this handles
           // user-replaced images where the original image-wrap is empty and the
@@ -11870,7 +12034,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var slotCS = window.getComputedStyle(slotEl);
         var slotWidthGap = slotRect.width - wrapRect.width;
         var slotHeightGap = wrapRect.height - slotRect.height;
-        var forceCardSlotFill = widthMode === 'card-slot' || wrapper.getAttribute('data-zappy-card-slot-fill') === '1';
         if (!forceCardSlotFill && slotWidthGap <= 4 && !(slotHeightGap > 4 && slotRect.height > 0 && slotCS.overflow !== 'visible')) return;
         var swStr = wrapper.getAttribute('data-zappy-zoom-wrapper-width');
         var shStr = wrapper.getAttribute('data-zappy-zoom-wrapper-height');
@@ -12156,6 +12319,19 @@ document.addEventListener('DOMContentLoaded', function() {
       var widthMode = wrapper.getAttribute('data-zappy-zoom-wrapper-width-mode') || 'px';
       if (widthMode === 'full' || widthMode === 'grid-responsive') return;
       if (isHeroBgWrapper(wrapper)) return;
+
+      if ((widthMode === 'card-slot' || wrapper.getAttribute('data-zappy-card-slot-fill') === '1') &&
+          !findImageSlotContainerForZoomWrapper(wrapper, 4) &&
+          hasSyncedDecorativeImageFrame(wrapper)) {
+        // Older published runtimes used substring matching and could persist
+        // card-slot fill on decorative frames like "showcase-image-wrapper".
+        // Clear that stale marker so saved pixel crop dimensions win again.
+        wrapper.removeAttribute('data-zappy-card-slot-fill');
+        if (widthMode === 'card-slot') {
+          wrapper.setAttribute('data-zappy-zoom-wrapper-width-mode', 'px');
+          widthMode = 'px';
+        }
+      }
 
       var storedW = wrapper.getAttribute('data-zappy-zoom-wrapper-width');
       var storedH = wrapper.getAttribute('data-zappy-zoom-wrapper-height');
@@ -14065,6 +14241,187 @@ function fixContrast(){
   else{markEmpty();}
 })();
 /* END ZAPPY_EMPTY_SUBMENU_HIDDEN */
+
+
+/* ZAPPY_ECOM_SEARCH_DROPDOWN_UX */
+(function(){
+  var LIMIT = 5;
+  function injectStyle() {
+    if (document.getElementById('zappy-ecom-search-dropdown-ux-style')) return;
+    var style = document.createElement('style');
+    style.id = 'zappy-ecom-search-dropdown-ux-style';
+    style.textContent = [
+      '.nav-search-results,.navbar #nav-search-results,.navbar .nav-search-results{width:min(360px,92vw)!important;min-width:280px!important;max-width:360px!important;inset-inline-end:auto!important;max-height:none!important;overflow:hidden!important;padding:6px!important;color:var(--text-color,var(--text,#1f2937))!important;border:1px solid var(--border-color,rgba(15,23,42,.08))!important;box-shadow:0 14px 36px rgba(15,23,42,.18)!important;}',
+      '.search-result-item,.navbar .nav-search-results .search-result-item,.nav-search-box .nav-search-results .search-result-item{display:flex!important;flex-direction:row!important;align-items:center!important;gap:8px!important;min-height:48px!important;padding:6px 8px!important;color:var(--text-color,var(--text,#1f2937))!important;text-decoration:none!important;}',
+      '.search-result-img,.navbar .nav-search-results .search-result-img,.nav-search-box .nav-search-results .search-result-img,.navbar .nav-search-results .search-result-item img,.nav-search-box .nav-search-results .search-result-item img{width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;flex:0 0 36px!important;object-fit:cover!important;border-radius:7px!important;background:var(--surface-color,var(--surface,#f3f4f6))!important;}',
+      '.search-result-info{flex:1 1 auto!important;min-width:0!important;}',
+      '.search-result-name{display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;white-space:normal!important;color:var(--text-color,var(--text,#1f2937))!important;font-size:13px!important;font-weight:600!important;line-height:1.3!important;}',
+      '.search-result-price{color:var(--primary-color,var(--accent,var(--primary,#ff0083)))!important;font-weight:600!important;}',
+      '.search-view-all,.navbar .nav-search-results button.search-view-all,.nav-search-box .nav-search-results button.search-view-all{display:block!important;width:100%!important;margin:6px 0 0!important;padding:10px 12px!important;text-align:center!important;background:var(--primary-color,var(--accent,var(--primary,#ff0083)))!important;color:var(--text-light,#fff)!important;font-size:13px!important;font-weight:700!important;line-height:1.2!important;text-decoration:none!important;border:0!important;border-radius:10px!important;cursor:pointer!important;box-shadow:none!important;appearance:none!important;}'
+    ].join('\n');
+    document.head.appendChild(style);
+  }
+  function routeFromHref(value) {
+    if (!value) return '';
+    try {
+      var url = new URL(value, window.location.origin);
+      return url.pathname || '';
+    } catch (e) {
+      return String(value || '').split('?')[0].split('#')[0];
+    }
+  }
+  function listingPath() {
+    var raw = window.ZAPPY_PRODUCTS_LISTING_PATH || '/products';
+    var path = routeFromHref(raw) || '/products';
+    if (path.charAt(0) !== '/') path = '/' + path;
+    return path.replace(/\/$/, '') || '/products';
+  }
+  function withLanguagePrefix(path) {
+    if (/^\/[a-z]{2}(?=\/|$)/i.test(path)) return path;
+    var current = window.location.pathname.match(/^\/[a-z]{2}(?=\/|$)/i);
+    if (!current || /^\/api\//i.test(window.location.pathname)) return path;
+    return current[0] + path;
+  }
+  function buildResultsUrl(query) {
+    var preview = window.location.pathname.indexOf('preview-fullscreen') !== -1 ||
+      window.location.pathname.indexOf('/api/website/preview') !== -1 ||
+      window.location.href.indexOf('preview-fullscreen') !== -1;
+    if (preview) {
+      var url = new URL(window.location.href);
+      url.searchParams.set('page', listingPath());
+      url.searchParams.set('search', query);
+      return url.toString();
+    }
+    return withLanguagePrefix(listingPath()) + '?search=' + encodeURIComponent(query);
+  }
+  function queryFor(container) {
+    var input = container && container.id === 'mobile-search-results'
+      ? document.getElementById('mobile-search-input')
+      : document.getElementById('nav-search-input');
+    return input && input.value ? input.value.trim() : '';
+  }
+  function labelText(fallbackText) {
+    try {
+      if (typeof getEcomText === 'function') {
+        return getEcomText('viewAllResults', 'View all results');
+      }
+    } catch (e) {}
+    return fallbackText || 'View all results';
+  }
+  function searchTitleText() {
+    try {
+      if (typeof getEcomText === 'function') {
+        return getEcomText('searchResults', 'Search results');
+      }
+    } catch (e) {}
+    var html = document.documentElement;
+    var lang = ((html && html.getAttribute('lang')) || '').toLowerCase();
+    return lang.indexOf('he') === 0 ? 'תוצאות חיפוש' : 'Search results';
+  }
+  function activeSearchQuery() {
+    var params;
+    try { params = new URLSearchParams(window.location.search); } catch (e) { return ''; }
+    var direct = (params.get('search') || '').trim();
+    if (direct) return direct;
+    var page = params.get('page') || '';
+    if (!page) return '';
+    try {
+      return (new URL(page, window.location.origin).searchParams.get('search') || '').trim();
+    } catch (e) {
+      return '';
+    }
+  }
+  function updateSearchTitle() {
+    var query = activeSearchQuery();
+    if (!query) return;
+    var title = document.getElementById('products-page-title');
+    if (title) {
+      var label = searchTitleText();
+      if ((title.textContent || '').trim() !== label) {
+        title.textContent = label;
+      }
+      if (title.getAttribute('data-search-title-active') !== 'true') {
+        title.setAttribute('data-search-title-active', 'true');
+      }
+    }
+  }
+  function watchSearchTitle() {
+    var title = document.getElementById('products-page-title');
+    if (!title || title.__zappySearchTitleObserver || !activeSearchQuery()) return;
+    title.__zappySearchTitleObserver = new MutationObserver(function() {
+      if ((title.textContent || '').trim() !== searchTitleText()) {
+        updateSearchTitle();
+      }
+    });
+    title.__zappySearchTitleObserver.observe(title, { childList: true });
+  }
+  function makeViewAllButton(link, query, priorText) {
+    var button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'search-view-all';
+    button.textContent = labelText(priorText);
+    button.setAttribute('data-search-url', buildResultsUrl(query));
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = button.getAttribute('data-search-url') || buildResultsUrl(query);
+    });
+    return button;
+  }
+  function capContainer(container) {
+    if (!container) return;
+    var query = queryFor(container);
+    var items = Array.prototype.slice.call(container.querySelectorAll('a.search-result-item'));
+    items.forEach(function(item, index) {
+      item.style.display = index < LIMIT ? '' : 'none';
+    });
+    var existing = Array.prototype.slice.call(container.querySelectorAll('a.search-view-all,button.search-view-all'));
+    var link = existing.shift();
+    var priorText = link ? (link.textContent || '').replace(/\s*\u2192\s*$/, '').trim() : '';
+    existing.forEach(function(el) { el.remove(); });
+    if (!query || query.length < 2) {
+      if (link) link.remove();
+      return;
+    }
+    if (!link || link.tagName !== 'BUTTON') {
+      var nextButton = makeViewAllButton(link, query, priorText);
+      if (link && link.parentNode) {
+        link.parentNode.replaceChild(nextButton, link);
+      } else {
+        container.appendChild(nextButton);
+      }
+      return;
+    }
+    link.onclick = function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.location.href = buildResultsUrl(query);
+    };
+    var nextUrl = buildResultsUrl(query);
+    if (link.getAttribute('data-search-url') !== nextUrl) {
+      link.setAttribute('data-search-url', nextUrl);
+    }
+    var nextLabel = labelText(priorText);
+    if ((link.textContent || '').trim() !== nextLabel) {
+      link.textContent = nextLabel;
+    }
+  }
+  function init() {
+    injectStyle();
+    updateSearchTitle();
+    watchSearchTitle();
+    var containers = Array.prototype.slice.call(document.querySelectorAll('#nav-search-results,#mobile-search-results,.nav-search-results,.mobile-search-panel .search-results'));
+    containers.forEach(function(container) {
+      capContainer(container);
+      if (container.__zappyEcomSearchUxObserver) return;
+      container.__zappyEcomSearchUxObserver = new MutationObserver(function(){ capContainer(container); });
+      container.__zappyEcomSearchUxObserver.observe(container, { childList: true });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+/* END ZAPPY_ECOM_SEARCH_DROPDOWN_UX */
 
 
 /* ZAPPY_INTERNAL_LINKS_NO_NEW_TAB */
@@ -16367,6 +16724,10 @@ function fixContrast(){
 /* ZAPPY_CUSTOMER_DISCOUNT_PRODUCT_DETAIL_RACE_V1 */
 
 /* ZAPPY_CUSTOMER_DISCOUNT_DELAYED_REFRESH_V1 */
+
+/* ZAPPY_ECOM_STARTUP_PERF_GUARDS_V2 */
+
+/* ZAPPY_ECOM_STARTUP_PERF_GUARDS_V1 */
 
 /* ZAPPY_CART_BUNDLE_DISCOUNT_V3 */
 ;(function() {
