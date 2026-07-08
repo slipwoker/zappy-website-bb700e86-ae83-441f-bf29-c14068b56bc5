@@ -228,7 +228,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="צור קשר — Heatwave">
     <meta name="twitter:description" content="צור קשר | Heatwave. בגדי ים">
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://heatwave.zappy5.app#organization","name":"Heatwave","url":"https://heatwave.zappy5.app","description":"An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a direct-to-consumer online retail model."},{"@type":"WebSite","@id":"https://heatwave.zappy5.app#website","url":"https://heatwave.zappy5.app","name":"Heatwave","publisher":{"@id":"https://heatwave.zappy5.app#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://heatwave.zappy5.app"},{"@type":"ListItem","position":2,"name":"Contact","item":"https://heatwave.zappy5.app/contact"}]},{"@type":"ContactPage","@id":"https://heatwave.zappy5.app/contact#contactpage","url":"https://heatwave.zappy5.app/contact","name":"צור קשר — Heatwave","mainEntity":{"@id":"https://heatwave.zappy5.app#organization"},"potentialAction":{"@type":"CommunicateAction","target":{"@type":"EntryPoint","urlTemplate":"https://heatwave.zappy5.app/api/email/contact-form","actionPlatform":["http/method=POST"],"contentType":"application/json"},"instrument":[{"@type":"PropertyValue","name":"name","propertyID":"text","valueRequired":true,"description":"השם שלך"},{"@type":"PropertyValue","name":"email","propertyID":"email","valueRequired":true,"description":"your@email.com"},{"@type":"PropertyValue","name":"phone","propertyID":"tel","valueRequired":false,"description":"05X-XXXXXXX"},{"@type":"PropertyValue","name":"message","propertyID":"textarea","valueRequired":true,"description":"כתבי/כתוב את הודעתך כאן..."},{"@type":"PropertyValue","name":"privacy_consent","propertyID":"checkbox","valueRequired":true}]}}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://heatwave.zappy5.app#organization","name":"Heatwave","url":"https://heatwave.zappy5.app","description":"An online swimwear store focused on selling swimwear products through an e-commerce platform. The business operates in the fashion and apparel industry with a direct-to-consumer online retail model."},{"@type":"WebSite","@id":"https://heatwave.zappy5.app#website","url":"https://heatwave.zappy5.app","name":"Heatwave","publisher":{"@id":"https://heatwave.zappy5.app#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://heatwave.zappy5.app"},{"@type":"ListItem","position":2,"name":"Contact","item":"https://heatwave.zappy5.app/contact"}]},{"@type":"ContactPage","@id":"https://heatwave.zappy5.app/contact#contactpage","url":"https://heatwave.zappy5.app/contact","name":"צור קשר — Heatwave","mainEntity":{"@id":"https://heatwave.zappy5.app#organization"},"potentialAction":{"@type":"CommunicateAction","target":{"@type":"EntryPoint","urlTemplate":"https://heatwave.zappy5.app/api/email/contact-form","actionPlatform":["http/method=POST"],"contentType":"application/json"},"instrument":[{"@type":"PropertyValue","name":"name","propertyID":"text","valueRequired":true,"description":"השם שלך"},{"@type":"PropertyValue","name":"email","propertyID":"email","valueRequired":true,"description":"your@email.com"},{"@type":"PropertyValue","name":"phone","propertyID":"tel","valueRequired":false,"description":"05X-XXXXXXX"},{"@type":"PropertyValue","name":"message","propertyID":"textarea","valueRequired":true,"description":"כתבי/כתוב את הודעתך כאן..."},{"@type":"PropertyValue","name":"file","propertyID":"file","valueRequired":false},{"@type":"PropertyValue","name":"privacy_consent","propertyID":"checkbox","valueRequired":true}]}}]}</script>
     <meta property="og:type" content="website">
   <meta property="og:locale" content="he_IL">
   
@@ -1794,6 +1794,12 @@ html[dir="rtl"] body {
           <textarea class="ccf-input ccf-textarea" id="ccf-message" name="message" rows="5" placeholder="כתבי/כתוב את הודעתך כאן..." required=""></textarea>
         </div>
 
+        <div class="ccf-field-group">
+          <label class="ccf-label" for="ccf-file">העלאת קובץ (PDF)</label>
+          <input class="ccf-input ccf-file-input" type="file" id="ccf-file" name="file" accept=".pdf" style="padding: 10px 16px;">
+          <span class="ccf-file-hint" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">ניתן לצרף קובץ PDF עד 10MB</span>
+        </div>
+
         <div class="privacy-consent">
           <label class="privacy-consent-label">
             <input type="checkbox" name="privacy_consent" class="privacy-consent-checkbox" required="">
@@ -1804,8 +1810,8 @@ html[dir="rtl"] body {
           </label>
         </div>
 
-        <button type="submit" class="ccf-submit-btn">שלח/י הודעה</button>
-      </form>
+        <button type="submit" class="ccf-submit-btn" data-element-type="button" data-element-id="btn-1783503458911-c0xa8unqv" data-native-element="true">שלח/י הודעה</button>
+</form>
     </div>
 
     <!-- Companion Text Block -->
