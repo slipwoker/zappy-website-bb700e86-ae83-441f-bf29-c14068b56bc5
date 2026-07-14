@@ -54,6 +54,9 @@ https://heatwave.zappy5.app/product/:slug
 https://heatwave.zappy5.app/category/:slug
 מוצרים - Heatwave
 
+### Page
+https://heatwave.zappy5.app/new-page-1784023570769
+
 ## Legal & Policy
 
 ### Privacy Policy
